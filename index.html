@@ -1,128 +1,693 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CA Final Tracker</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CA Final — Study Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <script src="https://cdn.tailwindcss.com"></script>
+:root {
+  --bg: #F7F6F3;
+  --surface: #FFFFFF;
+  --sidebar: #111827;
+  --border: #E5E4E0;
+  --text-1: #1A1917;
+  --text-2: #6B6A67;
+  --text-3: #A8A6A2;
+  --ff-display: 'Syne', sans-serif;
+  --ff-body: 'DM Sans', sans-serif;
+  --ff-mono: 'DM Mono', monospace;
+}
+
+body {
+  font-family: var(--ff-body);
+  background: var(--bg);
+  color: var(--text-1);
+  height: 100vh;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── LAYOUT ── */
+.layout { display: flex; height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 232px;
+  background: var(--sidebar);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+.sidebar::-webkit-scrollbar { width: 0; }
+
+.sb-brand {
+  padding: 24px 18px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.sb-eyebrow {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+  margin-bottom: 5px;
+}
+.sb-title {
+  font-family: var(--ff-display);
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.sb-nav { flex: 1; padding: 10px 8px; }
+
+.nav-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 9px 10px;
+  margin-bottom: 2px;
+  transition: background 0.13s;
+}
+.nav-btn:hover { background: rgba(255,255,255,0.05); }
+.nav-btn.active { background: rgba(255,255,255,0.1); }
+
+.nav-btn-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 7px;
+}
+.nav-id {
+  font-family: var(--ff-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: -0.01em;
+}
+.nav-count {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+}
+.nav-bar-bg {
+  height: 2px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.nav-bar-fill {
+  height: 100%;
+  border-radius: 1px;
+  transition: width 0.4s ease;
+}
+
+.sb-footer {
+  padding: 14px 18px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.overall-label {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+  margin-bottom: 8px;
+}
+.overall-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.overall-bar { flex: 1; height: 2px; background: rgba(255,255,255,0.08); border-radius: 1px; overflow: hidden; }
+.overall-fill { height: 100%; background: rgba(255,255,255,0.45); border-radius: 1px; transition: width 0.4s; }
+.overall-pct { font-family: var(--ff-mono); font-size: 11px; color: rgba(255,255,255,0.4); }
+.overall-sub { font-size: 11px; color: rgba(255,255,255,0.22); }
+
+/* ── MAIN ── */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+/* ── HEADER ── */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 22px 32px;
+  flex-shrink: 0;
+}
+.header-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+.header-title {
+  font-family: var(--ff-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-1);
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-family: var(--ff-body);
+}
+.c-done    { background: #ECFDF5; color: #059669; }
+.c-reading { background: #FFFBEB; color: #D97706; }
+.c-revise  { background: #F5F3FF; color: #7C3AED; }
+.c-overdue { background: #FFF1F2; color: #E11D48; font-weight: 600; }
+.c-empty   { background: #F5F5F4; color: #A8A6A2; }
+
+.header-right { text-align: right; flex-shrink: 0; padding-left: 16px; }
+.header-pct {
+  font-family: var(--ff-display);
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.header-pct-sub {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  color: var(--text-3);
+  margin-top: 3px;
+}
+
+.header-bar { height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; }
+.header-bar-fill { height: 100%; border-radius: 1px; transition: width 0.5s ease; }
+
+/* ── CHAPTER LIST ── */
+.list-wrap {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 32px 40px;
+}
+.list-wrap::-webkit-scrollbar { width: 3px; }
+.list-wrap::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.09); border-radius: 2px; }
+
+.col-heads {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px 10px;
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+}
+.col-heads .c-n { flex: 1; }
+.col-heads .c-s { width: 106px; text-align: center; }
+.col-heads .c-d { width: 68px; text-align: center; }
+.col-heads .c-f { width: 68px; text-align: center; }
+
+/* ── CHAPTER ROW ── */
+.ch-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 14px;
+  margin-bottom: 5px;
+  transition: border-color 0.13s, box-shadow 0.13s;
+}
+.ch-row:hover { border-color: #D1D0CC; box-shadow: 0 1px 6px rgba(0,0,0,0.04); }
+.ch-row.overdue { border-color: #FCA5A5; background: #FFFAFA; }
+
+.ch-name { flex: 1; min-width: 0; }
+.ch-name-text {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-1);
+  line-height: 1.35;
+}
+.ch-meta { font-family: var(--ff-mono); font-size: 11px; color: var(--text-3); margin-top: 2px; }
+.revise-badge {
+  display: inline-block;
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: #FFF1F2;
+  color: #E11D48;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* ── STATUS BUTTON ── */
+.status-btn {
+  width: 106px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--ff-body);
+  border: 1px solid;
+  cursor: pointer;
+  text-align: center;
+  transition: opacity 0.13s, transform 0.1s;
+  flex-shrink: 0;
+}
+.status-btn:hover { opacity: 0.72; transform: scale(0.97); }
+.s-pending { background: #F5F5F4; color: #78716C; border-color: #E5E4E0; }
+.s-reading { background: #FFFBEB; color: #D97706; border-color: #FDE68A; }
+.s-done    { background: #ECFDF5; color: #059669; border-color: #A7F3D0; }
+.s-revise  { background: #F5F3FF; color: #7C3AED; border-color: #DDD6FE; }
+
+/* ── DATE COL ── */
+.date-col {
+  width: 68px;
+  text-align: center;
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+
+/* ── DIFFICULTY DOTS ── */
+.diff-col {
+  width: 68px;
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.diff-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.13s;
+}
+.diff-dot.on  { background: #1A1917; color: #fff; }
+.diff-dot.off { background: #EFEEEB; color: #C5C3BF; }
+.diff-dot:hover { opacity: 0.7; }
+</style>
 </head>
+<body>
 
-<body class="bg-black text-white min-h-screen p-6">
-
-  <div class="max-w-5xl mx-auto">
-    <h1 class="text-4xl font-bold mb-2">CA Final Command Center</h1>
-
-    <p class="text-zinc-400 mb-8">
-      Track chapters. Revise smarter. Stay in control.
-    </p>
-
-    <div class="bg-zinc-900 p-6 rounded-3xl border border-zinc-800">
-      <h2 class="text-2xl font-semibold mb-6">
-        Financial Reporting
-      </h2>
-
-      <div id="chapters" class="space-y-4"></div>
-    </div>
-  </div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main" id="main"></main>
+</div>
 
 <script>
-const chapters = [
-  "Ind AS 1",
-  "Ind AS 2",
-  "Ind AS 7",
-  "Ind AS 8",
-  "Ind AS 16",
-  "Ind AS 21",
-  "Consolidation",
-  "Business Combination",
-  "Financial Instruments"
+// ════════════════════════════════════════════════════════════════════
+// CHAPTER DATA
+// ════════════════════════════════════════════════════════════════════
+const SUBJECTS = [
+  {
+    id: 'FR', name: 'Financial Reporting', color: '#3B82F6',
+    chapters: [
+      'Conceptual Framework for Financial Reporting',
+      'Ind AS 1 – Presentation of Financial Statements',
+      'Ind AS 7 – Statement of Cash Flows',
+      'Ind AS 8 – Accounting Policies, Changes in Accounting Estimates & Errors',
+      'Ind AS 10 – Events after the Reporting Period',
+      'Ind AS 12 – Income Taxes',
+      'Ind AS 16 – Property, Plant & Equipment',
+      'Ind AS 19 – Employee Benefits',
+      'Ind AS 20 – Accounting for Government Grants',
+      'Ind AS 21 – Effects of Changes in Foreign Exchange Rates',
+      'Ind AS 23 – Borrowing Costs',
+      'Ind AS 24 – Related Party Disclosures',
+      'Ind AS 27 – Separate Financial Statements',
+      'Ind AS 28 – Investments in Associates & Joint Ventures',
+      'Ind AS 32 – Financial Instruments: Presentation',
+      'Ind AS 33 – Earnings Per Share',
+      'Ind AS 34 – Interim Financial Reporting',
+      'Ind AS 36 – Impairment of Assets',
+      'Ind AS 37 – Provisions, Contingent Liabilities & Contingent Assets',
+      'Ind AS 38 – Intangible Assets',
+      'Ind AS 40 – Investment Property',
+      'Ind AS 41 – Agriculture',
+      'Ind AS 101 – First-time Adoption of Ind AS',
+      'Ind AS 102 – Share-based Payment',
+      'Ind AS 103 – Business Combinations',
+      'Ind AS 104 – Insurance Contracts',
+      'Ind AS 105 – Non-current Assets Held for Sale & Discontinued Operations',
+      'Ind AS 106 – Exploration for & Evaluation of Mineral Resources',
+      'Ind AS 107 – Financial Instruments: Disclosures',
+      'Ind AS 108 – Operating Segments',
+      'Ind AS 109 – Financial Instruments (Recognition & Measurement)',
+      'Ind AS 110 – Consolidated Financial Statements',
+      'Ind AS 111 – Joint Arrangements',
+      'Ind AS 112 – Disclosure of Interests in Other Entities',
+      'Ind AS 113 – Fair Value Measurement',
+      'Ind AS 115 – Revenue from Contracts with Customers',
+      'Ind AS 116 – Leases',
+      'Analysis of Financial Statements',
+    ]
+  },
+  {
+    id: 'AFM', name: 'Advanced Financial Management', color: '#8B5CF6',
+    chapters: [
+      'Financial Policy & Corporate Strategy',
+      'Risk Management',
+      'Security Analysis',
+      'Security Valuation',
+      'Portfolio Management',
+      'Securitization',
+      'Mutual Funds',
+      'Derivatives – Futures & Forwards',
+      'Derivatives – Options',
+      'Derivatives – Swaps',
+      'Foreign Exchange Exposure & Risk Management',
+      'International Financial Management',
+      'Interest Rate Risk Management',
+      'Business Valuation',
+      'Mergers, Acquisitions & Corporate Restructuring',
+      'Startup Finance & Venture Capital',
+    ]
+  },
+  {
+    id: 'AUDIT', name: 'Advanced Auditing & Professional Ethics', color: '#10B981',
+    chapters: [
+      'Nature, Objective & Scope of Audit',
+      'Audit Strategy, Planning & Programming',
+      'Risk Assessment & Internal Control',
+      'Audit Evidence',
+      'Audit of Items of Financial Statements',
+      'The Company Audit',
+      'Audit Report',
+      'Audit of Consolidated Financial Statements',
+      'Audit of Banks',
+      'Audit of Insurance Companies',
+      'Audit of Non-banking Financial Companies',
+      'Audit of Public Sector Undertakings',
+      'Internal Audit',
+      'Due Diligence, Investigation & Forensic Audit',
+      'Peer Review & Quality Review',
+      'Professional Ethics & Code of Conduct',
+    ]
+  },
+  {
+    id: 'DT', name: 'Direct Tax Laws & International Taxation', color: '#F97316',
+    chapters: [
+      'Basic Concepts & Residential Status',
+      'Income from Salaries',
+      'Income from House Property',
+      'Profits & Gains from Business or Profession',
+      'Capital Gains',
+      'Income from Other Sources',
+      'Clubbing of Income & Set Off of Losses',
+      'Deductions under Chapter VI-A',
+      'Assessment of Individuals & HUF',
+      'Assessment of Firms & LLP',
+      'Assessment of Companies',
+      'Assessment of Co-operative Societies & AOP/BOI',
+      'TDS & TCS',
+      'Advance Tax, Interest & Fee',
+      'Income Tax Authorities & Powers',
+      'Assessment Procedures',
+      'Appeals, Revision & Settlement Commission',
+      'Transfer Pricing',
+      'International Taxation & DTAA',
+      'Black Money Act & Benami Transactions',
+    ]
+  },
+  {
+    id: 'IDT', name: 'Indirect Tax Laws', color: '#F43F5E',
+    chapters: [
+      'GST – Constitutional Background',
+      'GST – Levy & Collection',
+      'GST – Exemptions',
+      'GST – Place of Supply',
+      'GST – Time of Supply',
+      'GST – Value of Supply',
+      'GST – Input Tax Credit',
+      'GST – Registration',
+      'GST – Tax Invoice, Credit & Debit Notes',
+      'GST – Returns',
+      'GST – Payment of Tax',
+      'GST – Refund',
+      'GST – Assessment',
+      'GST – Audit',
+      'GST – Demand & Recovery',
+      'GST – Appeals & Revision',
+      'GST – Offences & Penalties',
+      'Customs – Levy & Exemptions',
+      'Customs – Types of Duties',
+      'Customs – Valuation',
+      'Customs – Import & Export Procedures',
+      'Customs – Warehousing',
+      'Customs – Refund & Drawback',
+      'Foreign Trade Policy (FTP)',
+    ]
+  },
+  {
+    id: 'IBS', name: 'Integrated Business Solutions', color: '#14B8A6',
+    chapters: [
+      'Case Study Approach & Methodology',
+      'Strategic Management Application',
+      'Financial Reporting in Case Context',
+      'Advanced Auditing & Assurance Application',
+      'Direct Tax Planning Application',
+      'Indirect Tax Application',
+      'Ethics & Professional Conduct',
+      'Mock Case Study – Set 1',
+      'Mock Case Study – Set 2',
+      'Mock Case Study – Set 3',
+    ]
+  },
 ];
 
-const container = document.getElementById("chapters");
+const STATUS_ORDER = ['pending', 'reading', 'done', 'revise'];
+const STATUS_META = {
+  pending: { label: 'Not Started', sym: '○', cls: 's-pending' },
+  reading: { label: 'Studying',    sym: '◑', cls: 's-reading' },
+  done:    { label: 'Done',        sym: '●', cls: 's-done'    },
+  revise:  { label: 'To Revise',  sym: '↺', cls: 's-revise'  },
+};
+const REVISE_AFTER = 21; // days until "overdue" badge shows
 
-let saved = JSON.parse(localStorage.getItem("caTracker")) || {};
+// ════════════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════════════
+let activeSub = 'FR';
+let store = {};  // key → { status, date, diff }
 
-chapters.forEach(chapter => {
+function loadStore() {
+  try {
+    const s = localStorage.getItem('ca_finals_v4');
+    if (s) { const p = JSON.parse(s); store = p.d || {}; activeSub = p.s || 'FR'; }
+  } catch(e) {}
+}
 
-  const completed = saved[chapter]?.completed || false;
-  const revisions = saved[chapter]?.revisions || 0;
+function saveStore() {
+  localStorage.setItem('ca_finals_v4', JSON.stringify({ d: store, s: activeSub }));
+}
 
-  const div = document.createElement("div");
+const k = (sid, i) => `${sid}_${i}`;
+const g = (sid, i) => store[k(sid,i)] || { status: 'pending', date: null, diff: 0 };
 
-  div.className =
-    "bg-black border border-zinc-800 rounded-2xl p-4 flex justify-between items-center";
+function update(sid, i, obj) {
+  store[k(sid,i)] = { ...g(sid,i), ...obj };
+  saveStore();
+}
 
-  div.innerHTML = `
-    <div>
-      <div class="flex items-center gap-3">
-        <input
-          type="checkbox"
-          ${completed ? "checked" : ""}
-          onchange="toggleComplete('${chapter}')"
-        >
+function cycleStatus(sid, i) {
+  const cur = g(sid,i);
+  const ni = (STATUS_ORDER.indexOf(cur.status) + 1) % STATUS_ORDER.length;
+  const next = STATUS_ORDER[ni];
+  const upd = { status: next };
+  if (next === 'done' || next === 'revise') upd.date = new Date().toISOString();
+  if (next === 'pending') upd.date = null;
+  update(sid, i, upd);
+}
 
-        <h3 class="text-lg font-semibold">
-          ${chapter}
-        </h3>
-      </div>
+function toggleDiff(sid, i, d) {
+  const cur = g(sid,i);
+  update(sid, i, { diff: cur.diff === d ? 0 : d });
+}
 
-      <p class="text-zinc-400 text-sm mt-2">
-        Revisions:
-        <span id="rev-${chapter}">
-          ${revisions}
-        </span>
-      </p>
+// ════════════════════════════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════════════════════════════
+function getStats(sid) {
+  const sub = SUBJECTS.find(s => s.id === sid);
+  let done = 0, reading = 0, revise = 0, overdue = 0;
+  sub.chapters.forEach((_, i) => {
+    const c = g(sid, i);
+    if      (c.status === 'done')    { done++; if (daysSince(c.date) >= REVISE_AFTER) overdue++; }
+    else if (c.status === 'reading')   reading++;
+    else if (c.status === 'revise')    revise++;
+  });
+  return { total: sub.chapters.length, done, reading, revise, overdue };
+}
+
+function daysSince(d) {
+  if (!d) return 0;
+  return Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
+}
+
+function fmtDate(d) {
+  if (!d) return '';
+  const ds = daysSince(d);
+  if (ds === 0) return 'Today';
+  if (ds === 1) return 'Yest.';
+  if (ds < 7)  return ds + 'd ago';
+  return new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+}
+
+// ════════════════════════════════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════════════════════════════════
+function renderSidebar() {
+  let tDone = 0, tAll = 0;
+
+  const nav = SUBJECTS.map(sub => {
+    const st = getStats(sub.id);
+    const pct = Math.round(st.done / st.total * 100);
+    const active = sub.id === activeSub;
+    tDone += st.done; tAll += st.total;
+    return `
+<button class="nav-btn ${active ? 'active' : ''}" data-action="nav" data-sid="${sub.id}">
+  <div class="nav-btn-top">
+    <span class="nav-id">${sub.id}</span>
+    <span class="nav-count">${st.done}/${st.total}</span>
+  </div>
+  <div class="nav-bar-bg">
+    <div class="nav-bar-fill" style="width:${pct}%;background:${sub.color}"></div>
+  </div>
+</button>`;
+  }).join('');
+
+  const opct = tAll ? Math.round(tDone / tAll * 100) : 0;
+
+  document.getElementById('sidebar').innerHTML = `
+<div class="sb-brand">
+  <div class="sb-eyebrow">ICAI · New Scheme 2023</div>
+  <div class="sb-title">CA Final Tracker</div>
+</div>
+<nav class="sb-nav">${nav}</nav>
+<div class="sb-footer">
+  <div class="overall-label">Overall</div>
+  <div class="overall-row">
+    <div class="overall-bar"><div class="overall-fill" style="width:${opct}%"></div></div>
+    <span class="overall-pct">${opct}%</span>
+  </div>
+  <div class="overall-sub">${tDone} of ${tAll} chapters done</div>
+</div>`;
+}
+
+function renderMain() {
+  const sub = SUBJECTS.find(s => s.id === activeSub);
+  const st = getStats(activeSub);
+  const pct = Math.round(st.done / st.total * 100);
+
+  const chips = [
+    st.done    ? `<span class="chip c-done">${st.done} Done</span>` : '',
+    st.reading ? `<span class="chip c-reading">${st.reading} Studying</span>` : '',
+    st.revise  ? `<span class="chip c-revise">${st.revise} To Revise</span>` : '',
+    st.overdue ? `<span class="chip c-overdue">⚠ ${st.overdue} Overdue</span>` : '',
+  ].filter(Boolean).join('');
+
+  const rows = sub.chapters.map((name, i) => {
+    const c = g(sub.id, i);
+    const isOverdue = c.status === 'done' && daysSince(c.date) >= REVISE_AFTER;
+    const sm = STATUS_META[c.status];
+    const dateStr = fmtDate(c.date);
+
+    const dots = [1,2,3].map(d => `
+<button class="diff-dot ${c.diff >= d ? 'on' : 'off'}"
+  data-action="diff" data-sid="${sub.id}" data-i="${i}" data-d="${d}"
+  title="Difficulty ${d}">${d}</button>`).join('');
+
+    return `
+<div class="ch-row ${isOverdue ? 'overdue' : ''}">
+  <div class="ch-name">
+    <div class="ch-name-text">
+      ${name}
+      ${isOverdue ? '<span class="revise-badge">Revise Now</span>' : ''}
     </div>
+    ${dateStr ? `<div class="ch-meta">${dateStr}</div>` : ''}
+  </div>
+  <button class="status-btn ${sm.cls}"
+    data-action="cycle" data-sid="${sub.id}" data-i="${i}"
+    title="Click to cycle: Not Started → Studying → Done → To Revise">
+    ${sm.sym} ${sm.label}
+  </button>
+  <div class="date-col">${dateStr}</div>
+  <div class="diff-col">${dots}</div>
+</div>`;
+  }).join('');
 
-    <button
-      onclick="addRevision('${chapter}')"
-      class="bg-white text-black px-4 py-2 rounded-xl font-medium"
-    >
-      + Revision
-    </button>
-  `;
+  document.getElementById('main').innerHTML = `
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-title">${sub.name}</div>
+      <div class="chips">${chips || '<span class="chip c-empty">Nothing logged yet — start clicking</span>'}</div>
+    </div>
+    <div class="header-right">
+      <div class="header-pct" style="color:${sub.color}">${pct}%</div>
+      <div class="header-pct-sub">${st.total} chapters total</div>
+    </div>
+  </div>
+  <div class="header-bar">
+    <div class="header-bar-fill" style="width:${pct}%;background:${sub.color}"></div>
+  </div>
+</div>
+<div class="list-wrap">
+  <div class="col-heads">
+    <span class="c-n">Chapter</span>
+    <span class="c-s">Status — click to cycle</span>
+    <span class="c-d">Logged</span>
+    <span class="c-f">Difficulty</span>
+  </div>
+  ${rows}
+</div>`;
+}
 
-  container.appendChild(div);
+function render() {
+  renderSidebar();
+  renderMain();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// EVENT DELEGATION (single listener, no duplicates)
+// ════════════════════════════════════════════════════════════════════
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-action]');
+  if (!el) return;
+  const { action, sid, i, d } = el.dataset;
+
+  if (action === 'nav') {
+    activeSub = sid;
+    saveStore();
+    render();
+  } else if (action === 'cycle') {
+    cycleStatus(sid, +i);
+    renderSidebar();
+    renderMain();
+  } else if (action === 'diff') {
+    toggleDiff(sid, +i, +d);
+    renderMain();
+  }
 });
 
-function toggleComplete(chapter) {
-
-  saved[chapter] =
-    saved[chapter] || {
-      revisions: 0
-    };
-
-  saved[chapter].completed =
-    !saved[chapter].completed;
-
-  localStorage.setItem(
-    "caTracker",
-    JSON.stringify(saved)
-  );
-}
-
-function addRevision(chapter) {
-
-  saved[chapter] =
-    saved[chapter] || {
-      completed: false,
-      revisions: 0
-    };
-
-  saved[chapter].revisions++;
-
-  document.getElementById(
-    `rev-${chapter}`
-  ).innerText =
-    saved[chapter].revisions;
-
-  localStorage.setItem(
-    "caTracker",
-    JSON.stringify(saved)
-  );
-}
+// ════════════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════════════
+loadStore();
+render();
 </script>
-
 </body>
 </html>
