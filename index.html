@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CA Final Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white min-h-screen p-6">
+
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-4xl font-bold mb-2">CA Final Command Center</h1>
+    <p class="text-zinc-400 mb-8">Track chapters. Revise smarter. Stay in control.</p>
+
+    <div class="bg-zinc-900 p-6 rounded-3xl border border-zinc-800 mb-8">
+      <h2 class="text-2xl font-semibold mb-4">Financial Reporting</h2>
+
+      <div id="chapters" class="space-y-4"></div>
+    </div>
+  </div>
+
+<script>
+const chapters = [
+  "Ind AS 1",
+  "Ind AS 2",
+  "Ind AS 7",
+  "Ind AS 8",
+  "Ind AS 16",
+  "Ind AS 21",
+  "Consolidation",
+  "Business Combination",
+  "Financial Instruments"
+];
+
+const container = document.getElementById('chapters');
+
+let saved = JSON.parse(localStorage.getItem('caTracker')) || {};
+
+chapters.forEach(chapter => {
+  const completed = saved[chapter]?.completed || false;
+  const revisions = saved[chapter]?.revisions || 0;
+
+  const div = document.createElement('div');
+  div.className = 'bg-black border border-zinc-800 rounded-2xl p-4 flex justify-between items-center';
+
+  div.innerHTML = `
+    <div>
+      <div class="flex items-center gap-3">
+        <input type="checkbox" ${completed ? 'checked' : ''} onchange="toggleComplete('${chapter}')">
+        <h3 class="text-lg font-semibold">${chapter}</h3>
+      </div>
+      <p class="text-zinc-400 text-sm mt-2">Revisions: <span id="rev-${chapter}">${revisions}</span></p>
+    </div>
+
+    <button
+      onclick="addRevision('${chapter}')"
+      class="bg-white text-black px-4 py-2 rounded-xl font-medium"
+    >
+      + Revision
+    </button>
+  `;
+
+  container.appendChild(div);
+});
+
+function toggleComplete(chapter) {
+  saved[chapter] = saved[chapter] || { revisions: 0 };
+  saved[chapter].completed = !saved[chapter].completed;
+  localStorage.setItem('caTracker', JSON.stringify(saved));
+}
+
+function addRevision(chapter) {
+  saved[chapter] = saved[chapter] || { completed: false, revisions: 0 };
+  saved[chapter].revisions++;
+  document.getElementById(`rev-${chapter}`).innerText = saved[chapter].revisions;
+  localStorage.setItem('caTracker', JSON.stringify(saved));
+}
+</script>
+
+</body>
+</html>
+
+====================================================
+END SIMPLE HTML VERSION
+====================================================
+*/
+
+export default function CAStudyTracker() {
+  const { useState, useEffect } = React;
+
+  const defaultSubjects = {
+    FR: {
+      fullName: "Financial Reporting",
+      chapters: [
+        "Ind AS 1 – Presentation of Financial Statements",
+        "Ind AS 2 – Inventories",
+        "Ind AS 7 – Statement of Cash Flows",
+        "Ind AS 8 – Accounting Policies",
+        "Ind AS 10 – Events After Reporting Period",
+        "Ind AS 12 – Income Taxes",
+        "Ind AS 16 – Property Plant & Equipment",
+        "Ind AS 19 – Employee Benefits",
+        "Ind AS 21 – Effects of Foreign Exchange",
+        "Ind AS 23 – Borrowing Costs",
+        "Ind AS 24 – Related Party Disclosures",
+        "Ind AS 32 – Financial Instruments Presentation",
+        "Ind AS 36 – Impairment of Assets",
+        "Ind AS 37 – Provisions & Contingent Liabilities",
+        "Ind AS 38 – Intangible Assets",
+        "Ind AS 40 – Investment Property",
+        "Ind AS 41 – Agriculture",
+        "Consolidation",
+        "Business Combination",
+        "Corporate Financial Reporting"
+      ]
+    },
+    AFM: {
+      fullName: "Advanced Financial Management",
+      chapters: [
+        "Forex Risk Management",
+        "Security Valuation",
+        "Mergers & Acquisitions",
+        "Startup Finance",
+        "Treasury Management",
+        "Portfolio Management",
+        "International Financial Management",
+        "Derivatives",
+        "Strategic Financial Decisions"
+      ]
+    },
+    Audit: {
+      fullName: "Advanced Auditing",
+      chapters: [
+        "Professional Ethics",
+        "Standards on Auditing",
+        "Audit Planning",
+        "Internal Audit",
+        "Peer Review",
+        "Company Audit",
+        "Bank Audit",
+        "NBFC Audit",
+        "Government Audit"
+      ]
+    },
+    DT: {
+      fullName: "Direct Tax",
+      chapters: [
+        "Capital Gains",
+        "Business & Profession",
+        "International Taxation",
+        "Transfer Pricing",
+        "Assessment Procedure",
+        "Appeals & Revision",
+        "Income from Other Sources"
+      ]
+    },
+    IDT: {
+      fullName: "Indirect Tax",
+      chapters: [
+        "GST Basics",
+        "Input Tax Credit",
+        "Registration",
+        "Supply",
+        "Returns",
+        "Customs Law",
+        "Valuation"
+      ]
+    },
+    IBS: {
+      fullName: "Integrated Business Solutions",
+      chapters: [
+        "Case Study Practice",
+        "Risk Management",
+        "Strategy",
+        "Performance Management",
+        "Technology & Analytics"
+      ]
+    }
+  };
+
+  const [subjects, setSubjects] = useState(() => {
+    const saved = localStorage.getItem("ca-tracker-data");
+    if (saved) return JSON.parse(saved);
+
+    const structured = {};
+
+    Object.entries(defaultSubjects).forEach(([key, value]) => {
+      structured[key] = {
+        fullName: value.fullName,
+        chapters: value.chapters.map((chapter) => ({
+          name: chapter,
+          completed: false,
+          revisions: 0,
+          confidence: 3,
+          lastStudied: "",
+          notes: "",
+          difficulty: "Medium"
+        }))
+      };
+    });
+
+    return structured;
+  });
+
+  const [selectedSubject, setSelectedSubject] = useState("FR");
+  const [showOnlyPending, setShowOnlyPending] = useState(false);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("ca-tracker-data", JSON.stringify(subjects));
+  }, [subjects]);
+
+  const updateChapter = (index, field, value) => {
+    setSubjects((prev) => {
+      const updated = { ...prev };
+      updated[selectedSubject].chapters[index][field] = value;
+      return { ...updated };
+    });
+  };
+
+  const markToday = (index) => {
+    const today = new Date().toISOString().split("T")[0];
+    updateChapter(index, "lastStudied", today);
+  };
+
+  const filteredChapters = subjects[selectedSubject].chapters.filter((chapter) => {
+    const matchesSearch = chapter.name.toLowerCase().includes(search.toLowerCase());
+    const pendingCheck = showOnlyPending ? !chapter.completed : true;
+    return matchesSearch && pendingCheck;
+  });
+
+  const completionPercentage = Math.round(
+    (subjects[selectedSubject].chapters.filter((c) => c.completed).length /
+      subjects[selectedSubject].chapters.length) *
+      100
+  );
+
+  const weakAreas = subjects[selectedSubject].chapters.filter(
+    (c) => c.confidence <= 2
+  );
+
+  return (
+    <div className="min-h-screen bg-zinc-950 text-white p-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+          <div>
+            <h1 className="text-4xl font-bold">CA Final Command Center</h1>
+            <p className="text-zinc-400 mt-2">
+              Built to reduce friction. Open. Track. Revise. Repeat.
+            </p>
+          </div>
+
+          <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-4 min-w-[260px]">
+            <div className="text-sm text-zinc-400">Current Subject</div>
+            <div className="text-2xl font-semibold mt-1">
+              {subjects[selectedSubject].fullName}
+            </div>
+            <div className="mt-4">
+              <div className="flex justify-between text-sm mb-1">
+                <span>Completion</span>
+                <span>{completionPercentage}%</span>
+              </div>
+              <div className="h-3 bg-zinc-800 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-white rounded-full transition-all"
+                  style={{ width: `${completionPercentage}%` }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-3 mb-8">
+          {Object.entries(subjects).map(([key, subject]) => (
+            <button
+              key={key}
+              onClick={() => setSelectedSubject(key)}
+              className={`p-4 rounded-2xl border transition-all text-left ${
+                selectedSubject === key
+                  ? "bg-white text-black border-white"
+                  : "bg-zinc-900 border-zinc-800 hover:border-zinc-600"
+              }`}
+            >
+              <div className="font-semibold">{key}</div>
+              <div className="text-xs opacity-70 mt-1">{subject.fullName}</div>
+            </button>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
+          <div className="lg:col-span-3 bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+            <div className="flex flex-col md:flex-row gap-4 md:items-center md:justify-between mb-5">
+              <div>
+                <h2 className="text-2xl font-semibold">Study Tracker</h2>
+                <p className="text-zinc-400 text-sm mt-1">
+                  Keep this lightweight. Don’t over-log. Just update what matters.
+                </p>
+              </div>
+
+              <div className="flex gap-3 flex-wrap">
+                <input
+                  type="text"
+                  placeholder="Search chapter..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="bg-zinc-800 border border-zinc-700 px-4 py-2 rounded-xl outline-none"
+                />
+
+                <button
+                  onClick={() => setShowOnlyPending(!showOnlyPending)}
+                  className="bg-zinc-800 border border-zinc-700 px-4 py-2 rounded-xl"
+                >
+                  {showOnlyPending ? "Showing Pending" : "Show Pending Only"}
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              {filteredChapters.map((chapter, index) => (
+                <div
+                  key={index}
+                  className="border border-zinc-800 bg-zinc-950 rounded-2xl p-5"
+                >
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <input
+                          type="checkbox"
+                          checked={chapter.completed}
+                          onChange={(e) =>
+                            updateChapter(index, "completed", e.target.checked)
+                          }
+                          className="w-5 h-5"
+                        />
+
+                        <h3
+                          className={`text-lg font-semibold ${
+                            chapter.completed ? "line-through opacity-50" : ""
+                          }`}
+                        >
+                          {chapter.name}
+                        </h3>
+                      </div>
+
+                      <div className="flex flex-wrap gap-3 mt-4 text-sm">
+                        <div className="bg-zinc-900 px-3 py-1 rounded-full border border-zinc-700">
+                          Revisions: {chapter.revisions}
+                        </div>
+
+                        <div className="bg-zinc-900 px-3 py-1 rounded-full border border-zinc-700">
+                          Confidence: {chapter.confidence}/5
+                        </div>
+
+                        <div className="bg-zinc-900 px-3 py-1 rounded-full border border-zinc-700">
+                          Difficulty: {chapter.difficulty}
+                        </div>
+
+                        {chapter.lastStudied && (
+                          <div className="bg-zinc-900 px-3 py-1 rounded-full border border-zinc-700">
+                            Last Studied: {chapter.lastStudied}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        onClick={() =>
+                          updateChapter(index, "revisions", chapter.revisions + 1)
+                        }
+                        className="bg-white text-black px-4 py-2 rounded-xl font-medium"
+                      >
+                        + Revision
+                      </button>
+
+                      <button
+                        onClick={() => markToday(index)}
+                        className="bg-zinc-800 border border-zinc-700 px-4 py-2 rounded-xl"
+                      >
+                        Studied Today
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-3 gap-4 mt-5">
+                    <div>
+                      <label className="text-sm text-zinc-400 block mb-2">
+                        Confidence Level
+                      </label>
+                      <select
+                        value={chapter.confidence}
+                        onChange={(e) =>
+                          updateChapter(index, "confidence", Number(e.target.value))
+                        }
+                        className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-3"
+                      >
+                        <option value={1}>1 - Weak</option>
+                        <option value={2}>2 - Shaky</option>
+                        <option value={3}>3 - Average</option>
+                        <option value={4}>4 - Strong</option>
+                        <option value={5}>5 - Exam Ready</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="text-sm text-zinc-400 block mb-2">
+                        Difficulty
+                      </label>
+                      <select
+                        value={chapter.difficulty}
+                        onChange={(e) =>
+                          updateChapter(index, "difficulty", e.target.value)
+                        }
+                        className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-3"
+                      >
+                        <option>Easy</option>
+                        <option>Medium</option>
+                        <option>Hard</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="text-sm text-zinc-400 block mb-2">
+                        Last Studied
+                      </label>
+                      <input
+                        type="date"
+                        value={chapter.lastStudied}
+                        onChange={(e) =>
+                          updateChapter(index, "lastStudied", e.target.value)
+                        }
+                        className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-3"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-4">
+                    <label className="text-sm text-zinc-400 block mb-2">
+                      Quick Notes (optional)
+                    </label>
+                    <textarea
+                      value={chapter.notes}
+                      onChange={(e) =>
+                        updateChapter(index, "notes", e.target.value)
+                      }
+                      placeholder="Only write what actually matters. Example: 'Consolidation adjustments weak.'"
+                      className="w-full bg-zinc-900 border border-zinc-700 rounded-2xl p-3 min-h-[90px]"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+              <h3 className="text-xl font-semibold">Weak Areas</h3>
+              <p className="text-zinc-400 text-sm mt-1 mb-4">
+                Chapters where your confidence is low.
+              </p>
+
+              <div className="space-y-3">
+                {weakAreas.length === 0 && (
+                  <div className="text-zinc-500 text-sm">
+                    No weak chapters currently.
+                  </div>
+                )}
+
+                {weakAreas.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="bg-zinc-950 border border-zinc-800 rounded-2xl p-3"
+                  >
+                    <div className="font-medium">{item.name}</div>
+                    <div className="text-sm text-zinc-400 mt-1">
+                      Confidence: {item.confidence}/5
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+              <h3 className="text-xl font-semibold">How To Use This</h3>
+
+              <ul className="space-y-3 mt-4 text-sm text-zinc-300 leading-relaxed">
+                <li>• Don’t track hours. Track understanding.</li>
+                <li>• Use confidence score after every revision.</li>
+                <li>• Mark chapters weak honestly.</li>
+                <li>• Keep notes ultra short.</li>
+                <li>• Revise based on confidence + forgetting.</li>
+                <li>• Don’t turn this into another task.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+          <h2 className="text-2xl font-semibold">Future Features You Can Add</h2>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-5 text-sm">
+            <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-4">
+              AI-generated revision schedules
+            </div>
+            <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-4">
+              Pomodoro timer integrated into chapters
+            </div>
+            <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-4">
+              Past paper question tracking
+            </div>
+            <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-4">
+              Auto-import ICAI chapter index
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
