@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>CA Final — Study Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,286 +17,126 @@
   --text-1: #1A1917;
   --text-2: #6B6A67;
   --text-3: #A8A6A2;
-  --ff-display: 'Syne', sans-serif;
-  --ff-body: 'DM Sans', sans-serif;
-  --ff-mono: 'DM Mono', monospace;
+  --ff-d: 'Syne', sans-serif;
+  --ff-b: 'DM Sans', sans-serif;
+  --ff-m: 'DM Mono', monospace;
 }
-
-body {
-  font-family: var(--ff-body);
-  background: var(--bg);
-  color: var(--text-1);
-  height: 100vh;
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
-}
+body { font-family: var(--ff-b); background: var(--bg); color: var(--text-1); height: 100vh; overflow: hidden; -webkit-font-smoothing: antialiased; }
 
 /* ── LAYOUT ── */
 .layout { display: flex; height: 100vh; }
 
 /* ── SIDEBAR ── */
-.sidebar {
-  width: 232px;
-  background: var(--sidebar);
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  flex-shrink: 0;
-}
+.sidebar { width: 224px; background: var(--sidebar); display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0; }
 .sidebar::-webkit-scrollbar { width: 0; }
 
-.sb-brand {
-  padding: 24px 18px 18px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.sb-eyebrow {
-  font-family: var(--ff-mono);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.28);
-  margin-bottom: 5px;
-}
-.sb-title {
-  font-family: var(--ff-display);
-  font-size: 17px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: -0.01em;
-}
+.sb-brand { padding: 22px 16px 16px; border-bottom: 1px solid rgba(255,255,255,.06); }
+.sb-eye { font-family: var(--ff-m); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: rgba(255,255,255,.28); margin-bottom: 4px; }
+.sb-title { font-family: var(--ff-d); font-size: 16px; font-weight: 700; color: #fff; }
 
-.sb-nav { flex: 1; padding: 10px 8px; }
+.today-btn {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 10px 8px 4px;
+  background: none; border: none; border-radius: 8px;
+  padding: 9px 10px; cursor: pointer;
+  transition: background .13s; width: calc(100% - 16px);
+}
+.today-btn:hover { background: rgba(255,255,255,.05); }
+.today-btn.active { background: rgba(255,255,255,.1); }
+.today-label { font-family: var(--ff-d); font-size: 13px; font-weight: 700; color: rgba(255,255,255,.85); }
+.today-badge { font-family: var(--ff-m); font-size: 10px; background: #EF4444; color: #fff; border-radius: 4px; padding: 2px 6px; }
 
-.nav-btn {
-  display: block;
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-  padding: 9px 10px;
-  margin-bottom: 2px;
-  transition: background 0.13s;
-}
-.nav-btn:hover { background: rgba(255,255,255,0.05); }
-.nav-btn.active { background: rgba(255,255,255,0.1); }
+.sb-sep { height: 1px; background: rgba(255,255,255,.06); margin: 6px 8px; }
+.sb-nav { flex: 1; padding: 4px 8px; }
 
-.nav-btn-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 7px;
-}
-.nav-id {
-  font-family: var(--ff-display);
-  font-size: 13px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.85);
-  letter-spacing: -0.01em;
-}
-.nav-count {
-  font-family: var(--ff-mono);
-  font-size: 10px;
-  color: rgba(255,255,255,0.3);
-}
-.nav-bar-bg {
-  height: 2px;
-  background: rgba(255,255,255,0.07);
-  border-radius: 1px;
-  overflow: hidden;
-}
-.nav-bar-fill {
-  height: 100%;
-  border-radius: 1px;
-  transition: width 0.4s ease;
-}
+.nav-btn { display: block; width: 100%; text-align: left; background: none; border: none; cursor: pointer; border-radius: 8px; padding: 9px 10px; margin-bottom: 2px; transition: background .13s; }
+.nav-btn:hover { background: rgba(255,255,255,.05); }
+.nav-btn.active { background: rgba(255,255,255,.1); }
+.nb-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.nb-id { font-family: var(--ff-d); font-size: 13px; font-weight: 700; color: rgba(255,255,255,.85); }
+.nb-ct { font-family: var(--ff-m); font-size: 10px; color: rgba(255,255,255,.3); }
+.nb-bar { height: 2px; background: rgba(255,255,255,.07); border-radius: 1px; overflow: hidden; }
+.nb-fill { height: 100%; border-radius: 1px; transition: width .4s ease; }
+.nb-due { font-family: var(--ff-m); font-size: 9px; color: #FCA5A5; margin-top: 4px; }
 
-.sb-footer {
-  padding: 14px 18px;
-  border-top: 1px solid rgba(255,255,255,0.06);
-}
-.overall-label {
-  font-family: var(--ff-mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.28);
-  margin-bottom: 8px;
-}
-.overall-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
-.overall-bar { flex: 1; height: 2px; background: rgba(255,255,255,0.08); border-radius: 1px; overflow: hidden; }
-.overall-fill { height: 100%; background: rgba(255,255,255,0.45); border-radius: 1px; transition: width 0.4s; }
-.overall-pct { font-family: var(--ff-mono); font-size: 11px; color: rgba(255,255,255,0.4); }
-.overall-sub { font-size: 11px; color: rgba(255,255,255,0.22); }
+.sb-footer { padding: 12px 16px; border-top: 1px solid rgba(255,255,255,.06); }
+.ov-lbl { font-family: var(--ff-m); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.28); margin-bottom: 7px; }
+.ov-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.ov-bar { flex: 1; height: 2px; background: rgba(255,255,255,.08); border-radius: 1px; overflow: hidden; }
+.ov-fill { height: 100%; background: rgba(255,255,255,.45); border-radius: 1px; transition: width .4s; }
+.ov-pct { font-family: var(--ff-m); font-size: 11px; color: rgba(255,255,255,.4); }
+.ov-sub { font-size: 11px; color: rgba(255,255,255,.22); }
 
 /* ── MAIN ── */
 .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
 /* ── HEADER ── */
-.header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 22px 32px;
-  flex-shrink: 0;
-}
-.header-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
-.header-title {
-  font-family: var(--ff-display);
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text-1);
-  letter-spacing: -0.02em;
-  margin-bottom: 10px;
-}
-.chips { display: flex; gap: 6px; flex-wrap: wrap; }
-.chip {
-  font-size: 12px;
-  font-weight: 500;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-family: var(--ff-body);
-}
+.header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 20px 28px; flex-shrink: 0; }
+.header-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+.header-title { font-family: var(--ff-d); font-size: 19px; font-weight: 700; letter-spacing: -.02em; margin-bottom: 10px; }
+.chips { display: flex; gap: 5px; flex-wrap: wrap; }
+.chip { font-size: 11.5px; font-weight: 500; padding: 3px 9px; border-radius: 20px; }
 .c-done    { background: #ECFDF5; color: #059669; }
-.c-reading { background: #FFFBEB; color: #D97706; }
-.c-revise  { background: #F5F3FF; color: #7C3AED; }
-.c-overdue { background: #FFF1F2; color: #E11D48; font-weight: 600; }
+.c-study   { background: #FFFBEB; color: #D97706; }
+.c-due     { background: #FFF1F2; color: #E11D48; font-weight: 600; }
+.c-sched   { background: #EFF6FF; color: #3B82F6; }
 .c-empty   { background: #F5F5F4; color: #A8A6A2; }
+.header-right { text-align: right; flex-shrink: 0; padding-left: 12px; }
+.hpct { font-family: var(--ff-d); font-size: 28px; font-weight: 800; line-height: 1; letter-spacing: -.03em; }
+.hpct-sub { font-family: var(--ff-m); font-size: 10px; color: var(--text-3); margin-top: 2px; }
+.hbar { height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; }
+.hbar-fill { height: 100%; border-radius: 1px; transition: width .5s ease; }
 
-.header-right { text-align: right; flex-shrink: 0; padding-left: 16px; }
-.header-pct {
-  font-family: var(--ff-display);
-  font-size: 30px;
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.03em;
-}
-.header-pct-sub {
-  font-family: var(--ff-mono);
-  font-size: 10px;
-  color: var(--text-3);
-  margin-top: 3px;
-}
-
-.header-bar { height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; }
-.header-bar-fill { height: 100%; border-radius: 1px; transition: width 0.5s ease; }
-
-/* ── CHAPTER LIST ── */
-.list-wrap {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px 32px 40px;
-}
+/* ── LIST ── */
+.list-wrap { flex: 1; overflow-y: auto; padding: 16px 28px 40px; }
 .list-wrap::-webkit-scrollbar { width: 3px; }
-.list-wrap::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.09); border-radius: 2px; }
+.list-wrap::-webkit-scrollbar-thumb { background: rgba(0,0,0,.09); border-radius: 2px; }
 
-.col-heads {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 14px 10px;
-  font-family: var(--ff-mono);
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-3);
-}
-.col-heads .c-n { flex: 1; }
-.col-heads .c-s { width: 106px; text-align: center; }
-.col-heads .c-d { width: 68px; text-align: center; }
-.col-heads .c-f { width: 68px; text-align: center; }
+.col-heads { display: flex; align-items: center; gap: 6px; padding: 0 12px 8px; font-family: var(--ff-m); font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--text-3); }
+.col-n { flex: 1; }
+.col-s { width: 112px; text-align: center; }
+.col-r { width: 90px; text-align: center; }
+.col-f { width: 64px; text-align: center; }
 
-/* ── CHAPTER ROW ── */
-.ch-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 11px 14px;
-  margin-bottom: 5px;
-  transition: border-color 0.13s, box-shadow 0.13s;
-}
-.ch-row:hover { border-color: #D1D0CC; box-shadow: 0 1px 6px rgba(0,0,0,0.04); }
-.ch-row.overdue { border-color: #FCA5A5; background: #FFFAFA; }
+/* ── ROW ── */
+.ch-row { display: flex; align-items: center; gap: 6px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 4px; transition: border-color .13s, box-shadow .13s; }
+.ch-row:hover { border-color: #D1D0CC; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+.ch-row.row-due { border-color: #FCA5A5; background: #FFFAFA; }
+.ch-row.row-done { opacity: .7; }
 
 .ch-name { flex: 1; min-width: 0; }
-.ch-name-text {
-  font-size: 13.5px;
-  font-weight: 500;
-  color: var(--text-1);
-  line-height: 1.35;
-}
-.ch-meta { font-family: var(--ff-mono); font-size: 11px; color: var(--text-3); margin-top: 2px; }
-.revise-badge {
-  display: inline-block;
-  font-family: var(--ff-mono);
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  background: #FFF1F2;
-  color: #E11D48;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-left: 8px;
-  vertical-align: middle;
-}
+.ch-nm { font-size: 13px; font-weight: 500; line-height: 1.35; }
+.ch-sub { font-family: var(--ff-m); font-size: 10.5px; color: var(--text-3); margin-top: 2px; }
+.due-badge { display: inline-block; font-family: var(--ff-m); font-size: 9px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; background: #FFF1F2; color: #E11D48; padding: 1px 5px; border-radius: 3px; margin-left: 7px; vertical-align: middle; }
+.sched-badge { display: inline-block; font-family: var(--ff-m); font-size: 9px; letter-spacing: .05em; text-transform: uppercase; background: #EFF6FF; color: #3B82F6; padding: 1px 5px; border-radius: 3px; margin-left: 7px; vertical-align: middle; }
 
-/* ── STATUS BUTTON ── */
-.status-btn {
-  width: 106px;
-  padding: 5px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
-  font-family: var(--ff-body);
-  border: 1px solid;
-  cursor: pointer;
-  text-align: center;
-  transition: opacity 0.13s, transform 0.1s;
-  flex-shrink: 0;
-}
-.status-btn:hover { opacity: 0.72; transform: scale(0.97); }
-.s-pending { background: #F5F5F4; color: #78716C; border-color: #E5E4E0; }
-.s-reading { background: #FFFBEB; color: #D97706; border-color: #FDE68A; }
+/* ── STATUS BTN ── */
+.status-btn { width: 112px; padding: 5px 7px; border-radius: 6px; font-size: 11.5px; font-weight: 500; font-family: var(--ff-b); border: 1px solid; cursor: pointer; text-align: center; transition: opacity .13s, transform .1s; flex-shrink: 0; }
+.status-btn:hover { opacity: .72; transform: scale(.97); }
+.s-unseen  { background: #F5F5F4; color: #78716C; border-color: #E5E4E0; }
+.s-study   { background: #FFFBEB; color: #D97706; border-color: #FDE68A; }
 .s-done    { background: #ECFDF5; color: #059669; border-color: #A7F3D0; }
-.s-revise  { background: #F5F3FF; color: #7C3AED; border-color: #DDD6FE; }
 
-/* ── DATE COL ── */
-.date-col {
-  width: 68px;
-  text-align: center;
-  font-family: var(--ff-mono);
-  font-size: 11px;
-  color: var(--text-3);
-  flex-shrink: 0;
-}
+/* ── REVIEW BTN ── */
+.review-btn { width: 90px; padding: 5px 7px; border-radius: 6px; font-size: 11px; font-weight: 500; font-family: var(--ff-b); border: 1px solid; cursor: pointer; text-align: center; transition: opacity .13s, transform .1s; flex-shrink: 0; }
+.review-btn:hover { opacity: .72; transform: scale(.97); }
+.rb-na     { background: #F5F5F4; color: #C5C3BF; border-color: #EFEEEB; cursor: default; }
+.rb-due    { background: #FFF1F2; color: #E11D48; border-color: #FECDD3; font-weight: 600; }
+.rb-sched  { background: #EFF6FF; color: #3B82F6; border-color: #BFDBFE; }
+.rb-done   { background: #F0FDF4; color: #15803D; border-color: #BBF7D0; }
 
-/* ── DIFFICULTY DOTS ── */
-.diff-col {
-  width: 68px;
-  display: flex;
-  justify-content: center;
-  gap: 3px;
-  flex-shrink: 0;
-}
-.diff-dot {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  font-family: var(--ff-mono);
-  font-size: 10px;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-  transition: all 0.13s;
-}
+/* ── DIFF DOTS ── */
+.diff-col { width: 64px; display: flex; justify-content: center; gap: 3px; flex-shrink: 0; }
+.diff-dot { width: 18px; height: 18px; border-radius: 4px; font-family: var(--ff-m); font-size: 9px; font-weight: 500; border: none; cursor: pointer; transition: all .13s; }
 .diff-dot.on  { background: #1A1917; color: #fff; }
 .diff-dot.off { background: #EFEEEB; color: #C5C3BF; }
-.diff-dot:hover { opacity: 0.7; }
+.diff-dot:hover { opacity: .7; }
+
+/* ── TODAY VIEW ── */
+.today-section { margin-bottom: 22px; }
+.today-section-title { font-family: var(--ff-m); font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--text-3); margin-bottom: 8px; padding-left: 2px; }
+.today-empty { padding: 32px 20px; text-align: center; font-size: 13px; color: var(--text-3); }
+.today-sub-tag { font-family: var(--ff-m); font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
 </style>
 </head>
 <body>
@@ -308,9 +147,27 @@ body {
 </div>
 
 <script>
-// ════════════════════════════════════════════════════════════════════
-// CHAPTER DATA
-// ════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
+// SPACED REPETITION CONFIG
+// ══════════════════════════════════════════════════
+// Intervals (in days) per review count, indexed by difficulty
+// diff 1 = easy, 2 = medium, 3 = hard
+// Each array position = which review iteration you're on (0=first, 1=second, etc.)
+const SR_INTERVALS = {
+  0: [7, 14, 30, 60, 120],      // default (no difficulty set)
+  1: [10, 20, 40, 80, 150],     // easy
+  2: [5, 10, 21, 42, 90],       // medium
+  3: [2, 5, 12, 25, 60],        // hard
+};
+
+function nextInterval(diff, reviewCount) {
+  const seq = SR_INTERVALS[diff] || SR_INTERVALS[0];
+  return seq[Math.min(reviewCount, seq.length - 1)];
+}
+
+// ══════════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════════
 const SUBJECTS = [
   {
     id: 'FR', name: 'Financial Reporting', color: '#3B82F6',
@@ -318,12 +175,12 @@ const SUBJECTS = [
       'Conceptual Framework for Financial Reporting',
       'Ind AS 1 – Presentation of Financial Statements',
       'Ind AS 7 – Statement of Cash Flows',
-      'Ind AS 8 – Accounting Policies, Changes in Accounting Estimates & Errors',
+      'Ind AS 8 – Accounting Policies, Changes in Estimates & Errors',
       'Ind AS 10 – Events after the Reporting Period',
       'Ind AS 12 – Income Taxes',
       'Ind AS 16 – Property, Plant & Equipment',
       'Ind AS 19 – Employee Benefits',
-      'Ind AS 20 – Accounting for Government Grants',
+      'Ind AS 20 – Government Grants & Government Assistance',
       'Ind AS 21 – Effects of Changes in Foreign Exchange Rates',
       'Ind AS 23 – Borrowing Costs',
       'Ind AS 24 – Related Party Disclosures',
@@ -341,7 +198,7 @@ const SUBJECTS = [
       'Ind AS 102 – Share-based Payment',
       'Ind AS 103 – Business Combinations',
       'Ind AS 104 – Insurance Contracts',
-      'Ind AS 105 – Non-current Assets Held for Sale & Discontinued Operations',
+      'Ind AS 105 – Non-current Assets Held for Sale & Discontinued Ops',
       'Ind AS 106 – Exploration for & Evaluation of Mineral Resources',
       'Ind AS 107 – Financial Instruments: Disclosures',
       'Ind AS 108 – Operating Segments',
@@ -468,202 +325,368 @@ const SUBJECTS = [
   },
 ];
 
-const STATUS_ORDER = ['pending', 'reading', 'done', 'revise'];
-const STATUS_META = {
-  pending: { label: 'Not Started', sym: '○', cls: 's-pending' },
-  reading: { label: 'Studying',    sym: '◑', cls: 's-reading' },
-  done:    { label: 'Done',        sym: '●', cls: 's-done'    },
-  revise:  { label: 'To Revise',  sym: '↺', cls: 's-revise'  },
-};
-const REVISE_AFTER = 21; // days until "overdue" badge shows
-
-// ════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // STATE
-// ════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
+// Per chapter store:
+// { status: 'unseen'|'studying'|'done',
+//   studiedAt: ISO string (first time done),
+//   diff: 0-3,
+//   reviewCount: n,       ← how many times reviewed so far
+//   nextReview: ISO string ← date of next scheduled review
+// }
+
+const VIEW_TODAY = '__TODAY__';
 let activeSub = 'FR';
-let store = {};  // key → { status, date, diff }
+let store = {};
+
+const TODAY = new Date(); TODAY.setHours(0,0,0,0);
 
 function loadStore() {
   try {
-    const s = localStorage.getItem('ca_finals_v4');
-    if (s) { const p = JSON.parse(s); store = p.d || {}; activeSub = p.s || 'FR'; }
+    const raw = localStorage.getItem('ca_sr_v1');
+    if (raw) {
+      const p = JSON.parse(raw);
+      store = p.d || {};
+      activeSub = p.s || 'FR';
+    }
   } catch(e) {}
 }
-
 function saveStore() {
-  localStorage.setItem('ca_finals_v4', JSON.stringify({ d: store, s: activeSub }));
+  localStorage.setItem('ca_sr_v1', JSON.stringify({ d: store, s: activeSub }));
 }
 
-const k = (sid, i) => `${sid}_${i}`;
-const g = (sid, i) => store[k(sid,i)] || { status: 'pending', date: null, diff: 0 };
+const key = (sid, i) => `${sid}_${i}`;
+const get = (sid, i) => store[key(sid,i)] || { status:'unseen', studiedAt:null, diff:0, reviewCount:0, nextReview:null };
+function set(sid, i, obj) { store[key(sid,i)] = { ...get(sid,i), ...obj }; saveStore(); }
 
-function update(sid, i, obj) {
-  store[k(sid,i)] = { ...g(sid,i), ...obj };
-  saveStore();
+// ══════════════════════════════════════════════════
+// SPACED REP LOGIC
+// ══════════════════════════════════════════════════
+function addDays(from, d) {
+  const dt = new Date(from); dt.setDate(dt.getDate() + d); return dt.toISOString();
+}
+
+function daysBetween(a, b) {
+  // a, b are dates; returns b - a in days
+  const da = new Date(a); da.setHours(0,0,0,0);
+  const db = new Date(b); db.setHours(0,0,0,0);
+  return Math.round((db - da) / 86400000);
+}
+
+function reviewStatus(ch) {
+  // Returns: 'na' | 'due' | 'sched' | 'done'
+  if (ch.status !== 'done' || !ch.nextReview) return 'na';
+  const daysUntil = daysBetween(TODAY, new Date(ch.nextReview));
+  if (daysUntil <= 0) return 'due';
+  if (daysUntil <= 3) return 'sched'; // coming up soon
+  return 'done'; // reviewed & scheduled far out
+}
+
+function markDone(sid, i) {
+  const ch = get(sid, i);
+  if (ch.status === 'done') return; // already done, use markReviewed
+  const interval = nextInterval(ch.diff, 0);
+  set(sid, i, {
+    status: 'done',
+    studiedAt: new Date().toISOString(),
+    reviewCount: 0,
+    nextReview: addDays(new Date(), interval),
+  });
+}
+
+function markReviewed(sid, i) {
+  const ch = get(sid, i);
+  if (ch.status !== 'done') return;
+  const rc = (ch.reviewCount || 0) + 1;
+  const interval = nextInterval(ch.diff, rc);
+  set(sid, i, {
+    reviewCount: rc,
+    nextReview: addDays(new Date(), interval),
+  });
 }
 
 function cycleStatus(sid, i) {
-  const cur = g(sid,i);
-  const ni = (STATUS_ORDER.indexOf(cur.status) + 1) % STATUS_ORDER.length;
-  const next = STATUS_ORDER[ni];
-  const upd = { status: next };
-  if (next === 'done' || next === 'revise') upd.date = new Date().toISOString();
-  if (next === 'pending') upd.date = null;
-  update(sid, i, upd);
+  const ch = get(sid, i);
+  if (ch.status === 'unseen')   { set(sid, i, { status: 'studying' }); }
+  else if (ch.status === 'studying') { markDone(sid, i); }
+  else if (ch.status === 'done') { set(sid, i, { status: 'unseen', studiedAt: null, reviewCount: 0, nextReview: null }); }
 }
 
-function toggleDiff(sid, i, d) {
-  const cur = g(sid,i);
-  update(sid, i, { diff: cur.diff === d ? 0 : d });
+function setDiff(sid, i, d) {
+  const ch = get(sid, i);
+  const newDiff = ch.diff === d ? 0 : d;
+  // Recalculate next review if already done
+  let extra = {};
+  if (ch.status === 'done' && ch.nextReview) {
+    extra.nextReview = addDays(new Date(), nextInterval(newDiff, ch.reviewCount || 0));
+  }
+  set(sid, i, { diff: newDiff, ...extra });
 }
 
-// ════════════════════════════════════════════════════════════════════
-// HELPERS
-// ════════════════════════════════════════════════════════════════════
-function getStats(sid) {
+// ══════════════════════════════════════════════════
+// STATS
+// ══════════════════════════════════════════════════
+function getSubStats(sid) {
   const sub = SUBJECTS.find(s => s.id === sid);
-  let done = 0, reading = 0, revise = 0, overdue = 0;
-  sub.chapters.forEach((_, i) => {
-    const c = g(sid, i);
-    if      (c.status === 'done')    { done++; if (daysSince(c.date) >= REVISE_AFTER) overdue++; }
-    else if (c.status === 'reading')   reading++;
-    else if (c.status === 'revise')    revise++;
+  let done=0, studying=0, due=0, scheduled=0;
+  sub.chapters.forEach((_,i) => {
+    const ch = get(sid,i);
+    const rs = reviewStatus(ch);
+    if (ch.status === 'done')    done++;
+    if (ch.status === 'studying') studying++;
+    if (rs === 'due')   due++;
+    if (rs === 'sched') scheduled++;
   });
-  return { total: sub.chapters.length, done, reading, revise, overdue };
+  return { total: sub.chapters.length, done, studying, due, scheduled };
 }
 
-function daysSince(d) {
-  if (!d) return 0;
-  return Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
+function getAllDue() {
+  // Returns list of { sid, chIdx, chName, sub, reviewStatus, nextReview, diff }
+  const items = [];
+  SUBJECTS.forEach(sub => {
+    sub.chapters.forEach((name, i) => {
+      const ch = get(sub.id, i);
+      const rs = reviewStatus(ch);
+      if (rs === 'due' || rs === 'sched') {
+        items.push({ sid: sub.id, chIdx: i, chName: name, sub, rs, ch });
+      }
+    });
+  });
+  // Sort: due first, then scheduled by date
+  items.sort((a,b) => {
+    if (a.rs === 'due' && b.rs !== 'due') return -1;
+    if (b.rs === 'due' && a.rs !== 'due') return 1;
+    return new Date(a.ch.nextReview) - new Date(b.ch.nextReview);
+  });
+  return items;
 }
 
-function fmtDate(d) {
-  if (!d) return '';
-  const ds = daysSince(d);
-  if (ds === 0) return 'Today';
-  if (ds === 1) return 'Yest.';
-  if (ds < 7)  return ds + 'd ago';
-  return new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+function getTotalDueCount() {
+  return getAllDue().filter(x => x.rs === 'due').length;
 }
 
-// ════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
+// FORMAT HELPERS
+// ══════════════════════════════════════════════════
+function fmtAgo(iso) {
+  if (!iso) return '';
+  const d = daysBetween(new Date(iso), TODAY);
+  if (d === 0) return 'today';
+  if (d === 1) return 'yest.';
+  if (d < 7)  return d + 'd ago';
+  return new Date(iso).toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+}
+
+function fmtNext(iso) {
+  if (!iso) return '';
+  const d = daysBetween(TODAY, new Date(iso));
+  if (d <= 0) return 'Due now';
+  if (d === 1) return 'Tomorrow';
+  if (d <= 7) return `In ${d} days`;
+  return new Date(iso).toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+}
+
+// ══════════════════════════════════════════════════
 // RENDER
-// ════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 function renderSidebar() {
-  let tDone = 0, tAll = 0;
-
-  const nav = SUBJECTS.map(sub => {
-    const st = getStats(sub.id);
+  let tDone=0, tAll=0;
+  const navItems = SUBJECTS.map(sub => {
+    const st = getSubStats(sub.id);
     const pct = Math.round(st.done / st.total * 100);
-    const active = sub.id === activeSub;
     tDone += st.done; tAll += st.total;
+    const active = activeSub === sub.id;
     return `
-<button class="nav-btn ${active ? 'active' : ''}" data-action="nav" data-sid="${sub.id}">
-  <div class="nav-btn-top">
-    <span class="nav-id">${sub.id}</span>
-    <span class="nav-count">${st.done}/${st.total}</span>
+<button class="nav-btn ${active?'active':''}" data-action="nav" data-sid="${sub.id}">
+  <div class="nb-top">
+    <span class="nb-id">${sub.id}</span>
+    <span class="nb-ct">${st.done}/${st.total}</span>
   </div>
-  <div class="nav-bar-bg">
-    <div class="nav-bar-fill" style="width:${pct}%;background:${sub.color}"></div>
-  </div>
+  <div class="nb-bar"><div class="nb-fill" style="width:${pct}%;background:${sub.color}"></div></div>
+  ${st.due ? `<div class="nb-due">↩ ${st.due} review${st.due>1?'s':''} due</div>` : ''}
 </button>`;
   }).join('');
 
-  const opct = tAll ? Math.round(tDone / tAll * 100) : 0;
+  const opct = tAll ? Math.round(tDone/tAll*100) : 0;
+  const dueCount = getTotalDueCount();
 
   document.getElementById('sidebar').innerHTML = `
 <div class="sb-brand">
-  <div class="sb-eyebrow">ICAI · New Scheme 2023</div>
+  <div class="sb-eye">ICAI · New Scheme 2023</div>
   <div class="sb-title">CA Final Tracker</div>
 </div>
-<nav class="sb-nav">${nav}</nav>
+<button class="today-btn ${activeSub===VIEW_TODAY?'active':''}" data-action="nav" data-sid="${VIEW_TODAY}">
+  <span class="today-label">⚡ Due Today</span>
+  ${dueCount ? `<span class="today-badge">${dueCount}</span>` : ''}
+</button>
+<div class="sb-sep"></div>
+<nav class="sb-nav">${navItems}</nav>
 <div class="sb-footer">
-  <div class="overall-label">Overall</div>
-  <div class="overall-row">
-    <div class="overall-bar"><div class="overall-fill" style="width:${opct}%"></div></div>
-    <span class="overall-pct">${opct}%</span>
+  <div class="ov-lbl">Overall</div>
+  <div class="ov-row">
+    <div class="ov-bar"><div class="ov-fill" style="width:${opct}%"></div></div>
+    <span class="ov-pct">${opct}%</span>
   </div>
-  <div class="overall-sub">${tDone} of ${tAll} chapters done</div>
+  <div class="ov-sub">${tDone} of ${tAll} chapters done</div>
 </div>`;
 }
 
 function renderMain() {
+  if (activeSub === VIEW_TODAY) { renderToday(); return; }
   const sub = SUBJECTS.find(s => s.id === activeSub);
-  const st = getStats(activeSub);
+  const st = getSubStats(activeSub);
   const pct = Math.round(st.done / st.total * 100);
 
   const chips = [
     st.done    ? `<span class="chip c-done">${st.done} Done</span>` : '',
-    st.reading ? `<span class="chip c-reading">${st.reading} Studying</span>` : '',
-    st.revise  ? `<span class="chip c-revise">${st.revise} To Revise</span>` : '',
-    st.overdue ? `<span class="chip c-overdue">⚠ ${st.overdue} Overdue</span>` : '',
+    st.studying ? `<span class="chip c-study">${st.studying} Studying</span>` : '',
+    st.due     ? `<span class="chip c-due">⚠ ${st.due} Review Due</span>` : '',
+    st.scheduled ? `<span class="chip c-sched">${st.scheduled} Review Soon</span>` : '',
   ].filter(Boolean).join('');
 
   const rows = sub.chapters.map((name, i) => {
-    const c = g(sub.id, i);
-    const isOverdue = c.status === 'done' && daysSince(c.date) >= REVISE_AFTER;
-    const sm = STATUS_META[c.status];
-    const dateStr = fmtDate(c.date);
+    const ch = get(sub.id, i);
+    const rs = reviewStatus(ch);
 
-    const dots = [1,2,3].map(d => `
-<button class="diff-dot ${c.diff >= d ? 'on' : 'off'}"
-  data-action="diff" data-sid="${sub.id}" data-i="${i}" data-d="${d}"
-  title="Difficulty ${d}">${d}</button>`).join('');
+    let statusCls, statusLbl;
+    if (ch.status === 'unseen')   { statusCls='s-unseen'; statusLbl='○ Not Started'; }
+    else if (ch.status === 'studying') { statusCls='s-study'; statusLbl='◑ Studying'; }
+    else                                { statusCls='s-done';  statusLbl='● Done'; }
+
+    let reviewCls, reviewLbl;
+    if (rs === 'na')    { reviewCls='rb-na';   reviewLbl='—'; }
+    else if (rs === 'due')   { reviewCls='rb-due';  reviewLbl='↩ Review Now'; }
+    else if (rs === 'sched') { reviewCls='rb-sched'; reviewLbl=fmtNext(ch.nextReview); }
+    else                     { reviewCls='rb-done';  reviewLbl=fmtNext(ch.nextReview); }
+
+    const dots = [1,2,3].map(d =>
+      `<button class="diff-dot ${ch.diff>=d?'on':'off'}" data-action="diff" data-sid="${sub.id}" data-i="${i}" data-d="${d}">${d}</button>`
+    ).join('');
+
+    const isDue = rs === 'due';
+    const isDone = ch.status === 'done' && rs !== 'due';
+
+    let subline = '';
+    if (ch.studiedAt) {
+      const rc = ch.reviewCount || 0;
+      subline = `Studied ${fmtAgo(ch.studiedAt)}${rc > 0 ? ` · revised ${rc}×` : ''}`;
+    }
+
+    const reviewAction = (rs === 'due' || rs === 'sched') ? `data-action="review"` : '';
+    const reviewClickable = (rs === 'due' || rs === 'sched') ? '' : 'style="pointer-events:none"';
 
     return `
-<div class="ch-row ${isOverdue ? 'overdue' : ''}">
+<div class="ch-row ${isDue?'row-due':''} ${isDone?'row-done':''}">
   <div class="ch-name">
-    <div class="ch-name-text">
-      ${name}
-      ${isOverdue ? '<span class="revise-badge">Revise Now</span>' : ''}
-    </div>
-    ${dateStr ? `<div class="ch-meta">${dateStr}</div>` : ''}
+    <div class="ch-nm">${name}${isDue?'<span class="due-badge">Review Due</span>':''}</div>
+    ${subline ? `<div class="ch-sub">${subline}</div>` : ''}
   </div>
-  <button class="status-btn ${sm.cls}"
-    data-action="cycle" data-sid="${sub.id}" data-i="${i}"
-    title="Click to cycle: Not Started → Studying → Done → To Revise">
-    ${sm.sym} ${sm.label}
-  </button>
-  <div class="date-col">${dateStr}</div>
+  <button class="status-btn ${statusCls}" data-action="cycle" data-sid="${sub.id}" data-i="${i}"
+    title="Click to cycle: Not Started → Studying → Done → (reset)">${statusLbl}</button>
+  <button class="review-btn ${reviewCls}" ${reviewAction} data-sid="${sub.id}" data-i="${i}" ${reviewClickable}>${reviewLbl}</button>
   <div class="diff-col">${dots}</div>
 </div>`;
   }).join('');
 
   document.getElementById('main').innerHTML = `
 <div class="header">
-  <div class="header-top">
+  <div class="header-row">
     <div>
       <div class="header-title">${sub.name}</div>
-      <div class="chips">${chips || '<span class="chip c-empty">Nothing logged yet — start clicking</span>'}</div>
+      <div class="chips">${chips || '<span class="chip c-empty">Start clicking chapters below — no friction</span>'}</div>
     </div>
     <div class="header-right">
-      <div class="header-pct" style="color:${sub.color}">${pct}%</div>
-      <div class="header-pct-sub">${st.total} chapters total</div>
+      <div class="hpct" style="color:${sub.color}">${pct}%</div>
+      <div class="hpct-sub">${st.total} chapters</div>
     </div>
   </div>
-  <div class="header-bar">
-    <div class="header-bar-fill" style="width:${pct}%;background:${sub.color}"></div>
-  </div>
+  <div class="hbar"><div class="hbar-fill" style="width:${pct}%;background:${sub.color}"></div></div>
 </div>
 <div class="list-wrap">
   <div class="col-heads">
-    <span class="c-n">Chapter</span>
-    <span class="c-s">Status — click to cycle</span>
-    <span class="c-d">Logged</span>
-    <span class="c-f">Difficulty</span>
+    <span class="col-n">Chapter</span>
+    <span class="col-s">Status</span>
+    <span class="col-r">Next Review</span>
+    <span class="col-f">Difficulty</span>
   </div>
   ${rows}
 </div>`;
 }
 
-function render() {
-  renderSidebar();
-  renderMain();
+function renderToday() {
+  const items = getAllDue();
+  const due   = items.filter(x => x.rs === 'due');
+  const sched = items.filter(x => x.rs === 'sched');
+
+  function itemRow(x) {
+    const ch = x.ch;
+    const rc = ch.reviewCount || 0;
+    const isDue = x.rs === 'due';
+    return `
+<div class="ch-row ${isDue?'row-due':''}">
+  <div class="ch-name">
+    <div class="ch-nm">${x.chName}</div>
+    <div class="ch-sub">
+      <span class="today-sub-tag" style="background:${x.sub.color}18;color:${x.sub.color}">${x.sid}</span>
+      ${rc > 0 ? `· revised ${rc}×` : ''}
+    </div>
+  </div>
+  <button class="review-btn ${isDue?'rb-due':'rb-sched'}"
+    data-action="review" data-sid="${x.sid}" data-i="${x.chIdx}">
+    ${isDue ? '↩ Mark Reviewed' : fmtNext(ch.nextReview)}
+  </button>
+  <div class="diff-col">
+    ${[1,2,3].map(d=>`<button class="diff-dot ${ch.diff>=d?'on':'off'}" data-action="diff" data-sid="${x.sid}" data-i="${x.chIdx}" data-d="${d}">${d}</button>`).join('')}
+  </div>
+</div>`;
+  }
+
+  const dueSection = due.length ? `
+<div class="today-section">
+  <div class="today-section-title">Overdue — do these first</div>
+  ${due.map(itemRow).join('')}
+</div>` : '';
+
+  const schedSection = sched.length ? `
+<div class="today-section">
+  <div class="today-section-title">Coming up this week</div>
+  ${sched.map(itemRow).join('')}
+</div>` : '';
+
+  const empty = !due.length && !sched.length ? `
+<div class="today-empty">
+  Nothing due. Keep studying new chapters.
+</div>` : '';
+
+  document.getElementById('main').innerHTML = `
+<div class="header">
+  <div class="header-row">
+    <div>
+      <div class="header-title">Due Today</div>
+      <div class="chips">
+        ${due.length  ? `<span class="chip c-due">${due.length} Overdue</span>` : ''}
+        ${sched.length? `<span class="chip c-sched">${sched.length} This Week</span>` : ''}
+        ${!due.length && !sched.length ? '<span class="chip c-empty">All clear</span>' : ''}
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="hpct" style="color:#EF4444">${due.length}</div>
+      <div class="hpct-sub">overdue</div>
+    </div>
+  </div>
+  <div class="hbar"><div class="hbar-fill" style="width:${Math.min(100,due.length*10)}%;background:#EF4444"></div></div>
+</div>
+<div class="list-wrap">
+  ${dueSection}${schedSection}${empty}
+</div>`;
 }
 
-// ════════════════════════════════════════════════════════════════════
-// EVENT DELEGATION (single listener, no duplicates)
-// ════════════════════════════════════════════════════════════════════
+function render() { renderSidebar(); renderMain(); }
+
+// ══════════════════════════════════════════════════
+// EVENTS
+// ══════════════════════════════════════════════════
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-action]');
   if (!el) return;
@@ -675,17 +698,19 @@ document.addEventListener('click', e => {
     render();
   } else if (action === 'cycle') {
     cycleStatus(sid, +i);
-    renderSidebar();
-    renderMain();
+    render();
+  } else if (action === 'review') {
+    markReviewed(sid, +i);
+    render();
   } else if (action === 'diff') {
-    toggleDiff(sid, +i, +d);
+    setDiff(sid, +i, +d);
     renderMain();
   }
 });
 
-// ════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // INIT
-// ════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 loadStore();
 render();
 </script>
