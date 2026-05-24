@@ -8,39 +8,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
-  --bg: #F7F6F3;
-  --surface: #FFFFFF;
-  --sidebar: #111827;
-  --border: #E5E4E0;
-  --text-1: #1A1917;
-  --text-2: #6B6A67;
-  --text-3: #A8A6A2;
-  --ff-d: 'Syne', sans-serif;
-  --ff-b: 'DM Sans', sans-serif;
-  --ff-m: 'DM Mono', monospace;
+  --bg: #F7F6F3; --surface: #fff; --sidebar: #111827;
+  --border: #E5E4E0; --text-1: #1A1917; --text-2: #6B6A67; --text-3: #A8A6A2;
+  --ff-d: 'Syne', sans-serif; --ff-b: 'DM Sans', sans-serif; --ff-m: 'DM Mono', monospace;
 }
 body { font-family: var(--ff-b); background: var(--bg); color: var(--text-1); height: 100vh; overflow: hidden; -webkit-font-smoothing: antialiased; }
 
-/* ── LAYOUT ── */
 .layout { display: flex; height: 100vh; }
 
-/* ── SIDEBAR ── */
+/* SIDEBAR */
 .sidebar { width: 224px; background: var(--sidebar); display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0; }
 .sidebar::-webkit-scrollbar { width: 0; }
-
 .sb-brand { padding: 22px 16px 16px; border-bottom: 1px solid rgba(255,255,255,.06); }
 .sb-eye { font-family: var(--ff-m); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: rgba(255,255,255,.28); margin-bottom: 4px; }
 .sb-title { font-family: var(--ff-d); font-size: 16px; font-weight: 700; color: #fff; }
 
-.today-btn {
-  display: flex; align-items: center; justify-content: space-between;
-  margin: 10px 8px 4px;
-  background: none; border: none; border-radius: 8px;
-  padding: 9px 10px; cursor: pointer;
-  transition: background .13s; width: calc(100% - 16px);
-}
+.today-btn { display: flex; align-items: center; justify-content: space-between; margin: 10px 8px 4px; background: none; border: none; border-radius: 8px; padding: 9px 10px; cursor: pointer; transition: background .13s; width: calc(100% - 16px); }
 .today-btn:hover { background: rgba(255,255,255,.05); }
 .today-btn.active { background: rgba(255,255,255,.1); }
 .today-label { font-family: var(--ff-d); font-size: 13px; font-weight: 700; color: rgba(255,255,255,.85); }
@@ -67,17 +51,15 @@ body { font-family: var(--ff-b); background: var(--bg); color: var(--text-1); he
 .ov-pct { font-family: var(--ff-m); font-size: 11px; color: rgba(255,255,255,.4); }
 .ov-sub { font-size: 11px; color: rgba(255,255,255,.22); }
 
-/* ── MAIN ── */
+/* MAIN */
 .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
-/* ── HEADER ── */
 .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 20px 28px; flex-shrink: 0; }
 .header-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
 .header-title { font-family: var(--ff-d); font-size: 19px; font-weight: 700; letter-spacing: -.02em; margin-bottom: 10px; }
 .chips { display: flex; gap: 5px; flex-wrap: wrap; }
 .chip { font-size: 11.5px; font-weight: 500; padding: 3px 9px; border-radius: 20px; }
-.c-done    { background: #ECFDF5; color: #059669; }
-.c-study   { background: #FFFBEB; color: #D97706; }
+.c-touched { background: #FFFBEB; color: #D97706; }
 .c-due     { background: #FFF1F2; color: #E11D48; font-weight: 600; }
 .c-sched   { background: #EFF6FF; color: #3B82F6; }
 .c-empty   { background: #F5F5F4; color: #A8A6A2; }
@@ -87,514 +69,413 @@ body { font-family: var(--ff-b); background: var(--bg); color: var(--text-1); he
 .hbar { height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; }
 .hbar-fill { height: 100%; border-radius: 1px; transition: width .5s ease; }
 
-/* ── LIST ── */
+/* LIST */
 .list-wrap { flex: 1; overflow-y: auto; padding: 16px 28px 40px; }
 .list-wrap::-webkit-scrollbar { width: 3px; }
 .list-wrap::-webkit-scrollbar-thumb { background: rgba(0,0,0,.09); border-radius: 2px; }
-
 .col-heads { display: flex; align-items: center; gap: 6px; padding: 0 12px 8px; font-family: var(--ff-m); font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--text-3); }
 .col-n { flex: 1; }
-.col-s { width: 112px; text-align: center; }
-.col-r { width: 90px; text-align: center; }
+.col-t { width: 116px; text-align: center; }
+.col-r { width: 96px; text-align: center; }
 .col-f { width: 64px; text-align: center; }
 
-/* ── ROW ── */
+/* ROW */
 .ch-row { display: flex; align-items: center; gap: 6px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 4px; transition: border-color .13s, box-shadow .13s; }
 .ch-row:hover { border-color: #D1D0CC; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
 .ch-row.row-due { border-color: #FCA5A5; background: #FFFAFA; }
-.ch-row.row-done { opacity: .7; }
+.ch-row.row-touched { opacity: .75; }
 
 .ch-name { flex: 1; min-width: 0; }
 .ch-nm { font-size: 13px; font-weight: 500; line-height: 1.35; }
 .ch-sub { font-family: var(--ff-m); font-size: 10.5px; color: var(--text-3); margin-top: 2px; }
 .due-badge { display: inline-block; font-family: var(--ff-m); font-size: 9px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; background: #FFF1F2; color: #E11D48; padding: 1px 5px; border-radius: 3px; margin-left: 7px; vertical-align: middle; }
-.sched-badge { display: inline-block; font-family: var(--ff-m); font-size: 9px; letter-spacing: .05em; text-transform: uppercase; background: #EFF6FF; color: #3B82F6; padding: 1px 5px; border-radius: 3px; margin-left: 7px; vertical-align: middle; }
 
-/* ── STATUS BTN ── */
-.status-btn { width: 112px; padding: 5px 7px; border-radius: 6px; font-size: 11.5px; font-weight: 500; font-family: var(--ff-b); border: 1px solid; cursor: pointer; text-align: center; transition: opacity .13s, transform .1s; flex-shrink: 0; }
-.status-btn:hover { opacity: .72; transform: scale(.97); }
-.s-unseen  { background: #F5F5F4; color: #78716C; border-color: #E5E4E0; }
-.s-study   { background: #FFFBEB; color: #D97706; border-color: #FDE68A; }
-.s-done    { background: #ECFDF5; color: #059669; border-color: #A7F3D0; }
+/* STUDIED TODAY BTN */
+.touch-btn { width: 116px; padding: 5px 7px; border-radius: 6px; font-size: 11.5px; font-weight: 500; font-family: var(--ff-b); border: 1px solid; cursor: pointer; text-align: center; transition: opacity .13s, transform .1s; flex-shrink: 0; }
+.touch-btn:hover { opacity: .72; transform: scale(.97); }
+.tb-new     { background: #F5F5F4; color: #78716C; border-color: #E5E4E0; }
+.tb-active  { background: #FFFBEB; color: #D97706; border-color: #FDE68A; }
+.tb-today   { background: #ECFDF5; color: #059669; border-color: #A7F3D0; cursor: default; }
 
-/* ── REVIEW BTN ── */
-.review-btn { width: 90px; padding: 5px 7px; border-radius: 6px; font-size: 11px; font-weight: 500; font-family: var(--ff-b); border: 1px solid; cursor: pointer; text-align: center; transition: opacity .13s, transform .1s; flex-shrink: 0; }
-.review-btn:hover { opacity: .72; transform: scale(.97); }
-.rb-na     { background: #F5F5F4; color: #C5C3BF; border-color: #EFEEEB; cursor: default; }
-.rb-due    { background: #FFF1F2; color: #E11D48; border-color: #FECDD3; font-weight: 600; }
-.rb-sched  { background: #EFF6FF; color: #3B82F6; border-color: #BFDBFE; }
-.rb-done   { background: #F0FDF4; color: #15803D; border-color: #BBF7D0; }
+/* REVIEW BTN */
+.review-btn { width: 96px; padding: 5px 7px; border-radius: 6px; font-size: 11px; font-weight: 500; font-family: var(--ff-b); border: 1px solid; cursor: pointer; text-align: center; transition: opacity .13s, transform .1s; flex-shrink: 0; }
+.review-btn:hover:not(.rb-na) { opacity: .72; transform: scale(.97); }
+.rb-na    { background: #F5F5F4; color: #C5C3BF; border-color: #EFEEEB; cursor: default; pointer-events: none; }
+.rb-due   { background: #FFF1F2; color: #E11D48; border-color: #FECDD3; font-weight: 600; }
+.rb-sched { background: #EFF6FF; color: #3B82F6; border-color: #BFDBFE; cursor: default; pointer-events: none; }
 
-/* ── DIFF DOTS ── */
+/* DIFF DOTS */
 .diff-col { width: 64px; display: flex; justify-content: center; gap: 3px; flex-shrink: 0; }
 .diff-dot { width: 18px; height: 18px; border-radius: 4px; font-family: var(--ff-m); font-size: 9px; font-weight: 500; border: none; cursor: pointer; transition: all .13s; }
 .diff-dot.on  { background: #1A1917; color: #fff; }
 .diff-dot.off { background: #EFEEEB; color: #C5C3BF; }
 .diff-dot:hover { opacity: .7; }
 
-/* ── TODAY VIEW ── */
+/* TODAY VIEW */
 .today-section { margin-bottom: 22px; }
 .today-section-title { font-family: var(--ff-m); font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--text-3); margin-bottom: 8px; padding-left: 2px; }
-.today-empty { padding: 32px 20px; text-align: center; font-size: 13px; color: var(--text-3); }
-.today-sub-tag { font-family: var(--ff-m); font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
+.today-empty { padding: 40px 20px; text-align: center; font-size: 13px; color: var(--text-3); line-height: 1.7; }
+.sub-tag { font-family: var(--ff-m); font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
 </style>
 </head>
 <body>
-
 <div class="layout">
   <aside class="sidebar" id="sidebar"></aside>
   <main class="main" id="main"></main>
 </div>
-
 <script>
-// ══════════════════════════════════════════════════
-// SPACED REPETITION CONFIG
-// ══════════════════════════════════════════════════
-// Intervals (in days) per review count, indexed by difficulty
-// diff 1 = easy, 2 = medium, 3 = hard
-// Each array position = which review iteration you're on (0=first, 1=second, etc.)
-const SR_INTERVALS = {
-  0: [7, 14, 30, 60, 120],      // default (no difficulty set)
-  1: [10, 20, 40, 80, 150],     // easy
-  2: [5, 10, 21, 42, 90],       // medium
-  3: [2, 5, 12, 25, 60],        // hard
+// ─────────────────────────────────────────────────
+// SPACED REPETITION INTERVALS (days)
+// diff 0=default, 1=easy, 2=medium, 3=hard
+// index = reviewCount (0 = first scheduled review)
+// ─────────────────────────────────────────────────
+const SR = {
+  0: [7,  14, 30,  60, 120],
+  1: [10, 20, 40,  80, 150],
+  2: [5,  10, 21,  42,  90],
+  3: [2,   5, 12,  25,  60],
 };
-
-function nextInterval(diff, reviewCount) {
-  const seq = SR_INTERVALS[diff] || SR_INTERVALS[0];
-  return seq[Math.min(reviewCount, seq.length - 1)];
+function srInterval(diff, rc) {
+  const seq = SR[diff] || SR[0];
+  return seq[Math.min(rc, seq.length - 1)];
 }
 
-// ══════════════════════════════════════════════════
-// DATA
-// ══════════════════════════════════════════════════
+// ─────────────────────────────────────────────────
+// SUBJECTS + CHAPTERS
+// ─────────────────────────────────────────────────
 const SUBJECTS = [
-  {
-    id: 'FR', name: 'Financial Reporting', color: '#3B82F6',
-    chapters: [
-      'Conceptual Framework for Financial Reporting',
-      'Ind AS 1 – Presentation of Financial Statements',
-      'Ind AS 7 – Statement of Cash Flows',
-      'Ind AS 8 – Accounting Policies, Changes in Estimates & Errors',
-      'Ind AS 10 – Events after the Reporting Period',
-      'Ind AS 12 – Income Taxes',
-      'Ind AS 16 – Property, Plant & Equipment',
-      'Ind AS 19 – Employee Benefits',
-      'Ind AS 20 – Government Grants & Government Assistance',
-      'Ind AS 21 – Effects of Changes in Foreign Exchange Rates',
-      'Ind AS 23 – Borrowing Costs',
-      'Ind AS 24 – Related Party Disclosures',
-      'Ind AS 27 – Separate Financial Statements',
-      'Ind AS 28 – Investments in Associates & Joint Ventures',
-      'Ind AS 32 – Financial Instruments: Presentation',
-      'Ind AS 33 – Earnings Per Share',
-      'Ind AS 34 – Interim Financial Reporting',
-      'Ind AS 36 – Impairment of Assets',
-      'Ind AS 37 – Provisions, Contingent Liabilities & Contingent Assets',
-      'Ind AS 38 – Intangible Assets',
-      'Ind AS 40 – Investment Property',
-      'Ind AS 41 – Agriculture',
-      'Ind AS 101 – First-time Adoption of Ind AS',
-      'Ind AS 102 – Share-based Payment',
-      'Ind AS 103 – Business Combinations',
-      'Ind AS 104 – Insurance Contracts',
-      'Ind AS 105 – Non-current Assets Held for Sale & Discontinued Ops',
-      'Ind AS 106 – Exploration for & Evaluation of Mineral Resources',
-      'Ind AS 107 – Financial Instruments: Disclosures',
-      'Ind AS 108 – Operating Segments',
-      'Ind AS 109 – Financial Instruments (Recognition & Measurement)',
-      'Ind AS 110 – Consolidated Financial Statements',
-      'Ind AS 111 – Joint Arrangements',
-      'Ind AS 112 – Disclosure of Interests in Other Entities',
-      'Ind AS 113 – Fair Value Measurement',
-      'Ind AS 115 – Revenue from Contracts with Customers',
-      'Ind AS 116 – Leases',
-      'Analysis of Financial Statements',
-    ]
-  },
-  {
-    id: 'AFM', name: 'Advanced Financial Management', color: '#8B5CF6',
-    chapters: [
-      'Financial Policy & Corporate Strategy',
-      'Risk Management',
-      'Security Analysis',
-      'Security Valuation',
-      'Portfolio Management',
-      'Securitization',
-      'Mutual Funds',
-      'Derivatives – Futures & Forwards',
-      'Derivatives – Options',
-      'Derivatives – Swaps',
-      'Foreign Exchange Exposure & Risk Management',
-      'International Financial Management',
-      'Interest Rate Risk Management',
-      'Business Valuation',
-      'Mergers, Acquisitions & Corporate Restructuring',
-      'Startup Finance & Venture Capital',
-    ]
-  },
-  {
-    id: 'AUDIT', name: 'Advanced Auditing & Professional Ethics', color: '#10B981',
-    chapters: [
-      'Nature, Objective & Scope of Audit',
-      'Audit Strategy, Planning & Programming',
-      'Risk Assessment & Internal Control',
-      'Audit Evidence',
-      'Audit of Items of Financial Statements',
-      'The Company Audit',
-      'Audit Report',
-      'Audit of Consolidated Financial Statements',
-      'Audit of Banks',
-      'Audit of Insurance Companies',
-      'Audit of Non-banking Financial Companies',
-      'Audit of Public Sector Undertakings',
-      'Internal Audit',
-      'Due Diligence, Investigation & Forensic Audit',
-      'Peer Review & Quality Review',
-      'Professional Ethics & Code of Conduct',
-    ]
-  },
-  {
-    id: 'DT', name: 'Direct Tax Laws & International Taxation', color: '#F97316',
-    chapters: [
-      'Basic Concepts & Residential Status',
-      'Income from Salaries',
-      'Income from House Property',
-      'Profits & Gains from Business or Profession',
-      'Capital Gains',
-      'Income from Other Sources',
-      'Clubbing of Income & Set Off of Losses',
-      'Deductions under Chapter VI-A',
-      'Assessment of Individuals & HUF',
-      'Assessment of Firms & LLP',
-      'Assessment of Companies',
-      'Assessment of Co-operative Societies & AOP/BOI',
-      'TDS & TCS',
-      'Advance Tax, Interest & Fee',
-      'Income Tax Authorities & Powers',
-      'Assessment Procedures',
-      'Appeals, Revision & Settlement Commission',
-      'Transfer Pricing',
-      'International Taxation & DTAA',
-      'Black Money Act & Benami Transactions',
-    ]
-  },
-  {
-    id: 'IDT', name: 'Indirect Tax Laws', color: '#F43F5E',
-    chapters: [
-      'GST – Constitutional Background',
-      'GST – Levy & Collection',
-      'GST – Exemptions',
-      'GST – Place of Supply',
-      'GST – Time of Supply',
-      'GST – Value of Supply',
-      'GST – Input Tax Credit',
-      'GST – Registration',
-      'GST – Tax Invoice, Credit & Debit Notes',
-      'GST – Returns',
-      'GST – Payment of Tax',
-      'GST – Refund',
-      'GST – Assessment',
-      'GST – Audit',
-      'GST – Demand & Recovery',
-      'GST – Appeals & Revision',
-      'GST – Offences & Penalties',
-      'Customs – Levy & Exemptions',
-      'Customs – Types of Duties',
-      'Customs – Valuation',
-      'Customs – Import & Export Procedures',
-      'Customs – Warehousing',
-      'Customs – Refund & Drawback',
-      'Foreign Trade Policy (FTP)',
-    ]
-  },
-  {
-    id: 'IBS', name: 'Integrated Business Solutions', color: '#14B8A6',
-    chapters: [
-      'Case Study Approach & Methodology',
-      'Strategic Management Application',
-      'Financial Reporting in Case Context',
-      'Advanced Auditing & Assurance Application',
-      'Direct Tax Planning Application',
-      'Indirect Tax Application',
-      'Ethics & Professional Conduct',
-      'Mock Case Study – Set 1',
-      'Mock Case Study – Set 2',
-      'Mock Case Study – Set 3',
-    ]
-  },
+  { id:'FR', name:'Financial Reporting', color:'#3B82F6', chapters:[
+    'Conceptual Framework for Financial Reporting',
+    'Ind AS 1 – Presentation of Financial Statements',
+    'Ind AS 7 – Statement of Cash Flows',
+    'Ind AS 8 – Accounting Policies, Changes in Estimates & Errors',
+    'Ind AS 10 – Events after the Reporting Period',
+    'Ind AS 12 – Income Taxes',
+    'Ind AS 16 – Property, Plant & Equipment',
+    'Ind AS 19 – Employee Benefits',
+    'Ind AS 20 – Government Grants & Government Assistance',
+    'Ind AS 21 – Effects of Changes in Foreign Exchange Rates',
+    'Ind AS 23 – Borrowing Costs',
+    'Ind AS 24 – Related Party Disclosures',
+    'Ind AS 27 – Separate Financial Statements',
+    'Ind AS 28 – Investments in Associates & Joint Ventures',
+    'Ind AS 32 – Financial Instruments: Presentation',
+    'Ind AS 33 – Earnings Per Share',
+    'Ind AS 34 – Interim Financial Reporting',
+    'Ind AS 36 – Impairment of Assets',
+    'Ind AS 37 – Provisions, Contingent Liabilities & Contingent Assets',
+    'Ind AS 38 – Intangible Assets',
+    'Ind AS 40 – Investment Property',
+    'Ind AS 41 – Agriculture',
+    'Ind AS 101 – First-time Adoption of Ind AS',
+    'Ind AS 102 – Share-based Payment',
+    'Ind AS 103 – Business Combinations',
+    'Ind AS 104 – Insurance Contracts',
+    'Ind AS 105 – Non-current Assets Held for Sale & Discontinued Ops',
+    'Ind AS 106 – Exploration for & Evaluation of Mineral Resources',
+    'Ind AS 107 – Financial Instruments: Disclosures',
+    'Ind AS 108 – Operating Segments',
+    'Ind AS 109 – Financial Instruments (Recognition & Measurement)',
+    'Ind AS 110 – Consolidated Financial Statements',
+    'Ind AS 111 – Joint Arrangements',
+    'Ind AS 112 – Disclosure of Interests in Other Entities',
+    'Ind AS 113 – Fair Value Measurement',
+    'Ind AS 115 – Revenue from Contracts with Customers',
+    'Ind AS 116 – Leases',
+    'Analysis of Financial Statements',
+  ]},
+  { id:'AFM', name:'Advanced Financial Management', color:'#8B5CF6', chapters:[
+    'Financial Policy & Corporate Strategy','Risk Management','Security Analysis',
+    'Security Valuation','Portfolio Management','Securitization','Mutual Funds',
+    'Derivatives – Futures & Forwards','Derivatives – Options','Derivatives – Swaps',
+    'Foreign Exchange Exposure & Risk Management','International Financial Management',
+    'Interest Rate Risk Management','Business Valuation',
+    'Mergers, Acquisitions & Corporate Restructuring','Startup Finance & Venture Capital',
+  ]},
+  { id:'AUDIT', name:'Advanced Auditing & Professional Ethics', color:'#10B981', chapters:[
+    'Nature, Objective & Scope of Audit','Audit Strategy, Planning & Programming',
+    'Risk Assessment & Internal Control','Audit Evidence',
+    'Audit of Items of Financial Statements','The Company Audit','Audit Report',
+    'Audit of Consolidated Financial Statements','Audit of Banks',
+    'Audit of Insurance Companies','Audit of Non-banking Financial Companies',
+    'Audit of Public Sector Undertakings','Internal Audit',
+    'Due Diligence, Investigation & Forensic Audit','Peer Review & Quality Review',
+    'Professional Ethics & Code of Conduct',
+  ]},
+  { id:'DT', name:'Direct Tax Laws & International Taxation', color:'#F97316', chapters:[
+    'Basic Concepts & Residential Status','Income from Salaries',
+    'Income from House Property','Profits & Gains from Business or Profession',
+    'Capital Gains','Income from Other Sources','Clubbing of Income & Set Off of Losses',
+    'Deductions under Chapter VI-A','Assessment of Individuals & HUF',
+    'Assessment of Firms & LLP','Assessment of Companies',
+    'Assessment of Co-operative Societies & AOP/BOI','TDS & TCS',
+    'Advance Tax, Interest & Fee','Income Tax Authorities & Powers',
+    'Assessment Procedures','Appeals, Revision & Settlement Commission',
+    'Transfer Pricing','International Taxation & DTAA',
+    'Black Money Act & Benami Transactions',
+  ]},
+  { id:'IDT', name:'Indirect Tax Laws', color:'#F43F5E', chapters:[
+    'GST – Constitutional Background','GST – Levy & Collection','GST – Exemptions',
+    'GST – Place of Supply','GST – Time of Supply','GST – Value of Supply',
+    'GST – Input Tax Credit','GST – Registration','GST – Tax Invoice, Credit & Debit Notes',
+    'GST – Returns','GST – Payment of Tax','GST – Refund','GST – Assessment',
+    'GST – Audit','GST – Demand & Recovery','GST – Appeals & Revision',
+    'GST – Offences & Penalties','Customs – Levy & Exemptions','Customs – Types of Duties',
+    'Customs – Valuation','Customs – Import & Export Procedures','Customs – Warehousing',
+    'Customs – Refund & Drawback','Foreign Trade Policy (FTP)',
+  ]},
+  { id:'IBS', name:'Integrated Business Solutions', color:'#14B8A6', chapters:[
+    'Case Study Approach & Methodology','Strategic Management Application',
+    'Financial Reporting in Case Context','Advanced Auditing & Assurance Application',
+    'Direct Tax Planning Application','Indirect Tax Application',
+    'Ethics & Professional Conduct','Mock Case Study – Set 1',
+    'Mock Case Study – Set 2','Mock Case Study – Set 3',
+  ]},
 ];
 
-// ══════════════════════════════════════════════════
+// ─────────────────────────────────────────────────
 // STATE
-// ══════════════════════════════════════════════════
-// Per chapter store:
-// { status: 'unseen'|'studying'|'done',
-//   studiedAt: ISO string (first time done),
-//   diff: 0-3,
-//   reviewCount: n,       ← how many times reviewed so far
-//   nextReview: ISO string ← date of next scheduled review
-// }
-
+// Per chapter: { firstTouched, lastTouched, sessions, diff, reviewCount, nextReview }
+// firstTouched → SR clock start, never resets
+// sessions     → array of ISO date strings (every "Studied Today" press)
+// nextReview   → set once on firstTouched, only advances on markReviewed
+// ─────────────────────────────────────────────────
 const VIEW_TODAY = '__TODAY__';
 let activeSub = 'FR';
 let store = {};
 
-const TODAY = new Date(); TODAY.setHours(0,0,0,0);
-
-function loadStore() {
-  try {
-    const raw = localStorage.getItem('ca_sr_v1');
-    if (raw) {
-      const p = JSON.parse(raw);
-      store = p.d || {};
-      activeSub = p.s || 'FR';
-    }
-  } catch(e) {}
+function load() {
+  try { const p = JSON.parse(localStorage.getItem('ca_sr_v2')||'{}'); store = p.d||{}; activeSub = p.s||'FR'; } catch(e){}
 }
-function saveStore() {
-  localStorage.setItem('ca_sr_v1', JSON.stringify({ d: store, s: activeSub }));
+function save() { localStorage.setItem('ca_sr_v2', JSON.stringify({d:store,s:activeSub})); }
+
+const K = (sid,i) => `${sid}_${i}`;
+const G = (sid,i) => store[K(sid,i)] || { firstTouched:null, lastTouched:null, sessions:[], diff:0, reviewCount:0, nextReview:null };
+function S(sid,i,obj) { store[K(sid,i)] = {...G(sid,i),...obj}; save(); }
+
+// ─────────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────────
+const today0 = () => { const d=new Date(); d.setHours(0,0,0,0); return d; };
+function addDays(n) { const d=today0(); d.setDate(d.getDate()+n); return d.toISOString(); }
+function daysSince(iso) {
+  if (!iso) return null;
+  const d = new Date(iso); d.setHours(0,0,0,0);
+  return Math.round((today0()-d)/86400000);
+}
+function daysUntil(iso) {
+  if (!iso) return null;
+  const d = new Date(iso); d.setHours(0,0,0,0);
+  return Math.round((d-today0())/86400000);
+}
+function fmtAgo(iso) {
+  if (!iso) return '';
+  const d = daysSince(iso);
+  if (d===0) return 'today'; if (d===1) return 'yesterday';
+  if (d<7) return d+'d ago';
+  return new Date(iso).toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+}
+function fmtNext(iso) {
+  if (!iso) return '—';
+  const d = daysUntil(iso);
+  if (d<=0) return 'Due now';
+  if (d===1) return 'Tomorrow';
+  if (d<=7) return 'In '+d+' days';
+  return new Date(iso).toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+}
+function isTodayLogged(ch) {
+  if (!ch.sessions || !ch.sessions.length) return false;
+  return daysSince(ch.sessions[ch.sessions.length-1]) === 0;
 }
 
-const key = (sid, i) => `${sid}_${i}`;
-const get = (sid, i) => store[key(sid,i)] || { status:'unseen', studiedAt:null, diff:0, reviewCount:0, nextReview:null };
-function set(sid, i, obj) { store[key(sid,i)] = { ...get(sid,i), ...obj }; saveStore(); }
+// ─────────────────────────────────────────────────
+// ACTIONS
+// ─────────────────────────────────────────────────
+function logSession(sid, i) {
+  const ch = G(sid,i);
+  if (isTodayLogged(ch)) return; // already logged today, no-op
+  const now = new Date().toISOString();
+  const sessions = [...(ch.sessions||[]), now];
 
-// ══════════════════════════════════════════════════
-// SPACED REP LOGIC
-// ══════════════════════════════════════════════════
-function addDays(from, d) {
-  const dt = new Date(from); dt.setDate(dt.getDate() + d); return dt.toISOString();
-}
-
-function daysBetween(a, b) {
-  // a, b are dates; returns b - a in days
-  const da = new Date(a); da.setHours(0,0,0,0);
-  const db = new Date(b); db.setHours(0,0,0,0);
-  return Math.round((db - da) / 86400000);
-}
-
-function reviewStatus(ch) {
-  // Returns: 'na' | 'due' | 'sched' | 'done'
-  if (ch.status !== 'done' || !ch.nextReview) return 'na';
-  const daysUntil = daysBetween(TODAY, new Date(ch.nextReview));
-  if (daysUntil <= 0) return 'due';
-  if (daysUntil <= 3) return 'sched'; // coming up soon
-  return 'done'; // reviewed & scheduled far out
-}
-
-function markDone(sid, i) {
-  const ch = get(sid, i);
-  if (ch.status === 'done') return; // already done, use markReviewed
-  const interval = nextInterval(ch.diff, 0);
-  set(sid, i, {
-    status: 'done',
-    studiedAt: new Date().toISOString(),
-    reviewCount: 0,
-    nextReview: addDays(new Date(), interval),
-  });
+  if (!ch.firstTouched) {
+    // First ever touch → start SR clock
+    S(sid, i, {
+      firstTouched: now,
+      lastTouched:  now,
+      sessions,
+      reviewCount: 0,
+      nextReview: addDays(srInterval(ch.diff, 0)),
+    });
+  } else {
+    // Subsequent touch → just log, SR clock unchanged
+    S(sid, i, { lastTouched: now, sessions });
+  }
 }
 
 function markReviewed(sid, i) {
-  const ch = get(sid, i);
-  if (ch.status !== 'done') return;
-  const rc = (ch.reviewCount || 0) + 1;
-  const interval = nextInterval(ch.diff, rc);
-  set(sid, i, {
-    reviewCount: rc,
-    nextReview: addDays(new Date(), interval),
-  });
-}
-
-function cycleStatus(sid, i) {
-  const ch = get(sid, i);
-  if (ch.status === 'unseen')   { set(sid, i, { status: 'studying' }); }
-  else if (ch.status === 'studying') { markDone(sid, i); }
-  else if (ch.status === 'done') { set(sid, i, { status: 'unseen', studiedAt: null, reviewCount: 0, nextReview: null }); }
+  const ch = G(sid,i);
+  if (!ch.nextReview) return;
+  const rc = (ch.reviewCount||0) + 1;
+  S(sid, i, { reviewCount: rc, nextReview: addDays(srInterval(ch.diff, rc)) });
 }
 
 function setDiff(sid, i, d) {
-  const ch = get(sid, i);
-  const newDiff = ch.diff === d ? 0 : d;
-  // Recalculate next review if already done
-  let extra = {};
-  if (ch.status === 'done' && ch.nextReview) {
-    extra.nextReview = addDays(new Date(), nextInterval(newDiff, ch.reviewCount || 0));
-  }
-  set(sid, i, { diff: newDiff, ...extra });
+  const ch = G(sid,i);
+  const diff = ch.diff===d ? 0 : d;
+  // If SR clock already running, recalculate next review from today with new diff
+  const extra = ch.firstTouched ? { nextReview: addDays(srInterval(diff, ch.reviewCount||0)) } : {};
+  S(sid, i, { diff, ...extra });
 }
 
-// ══════════════════════════════════════════════════
+// ─────────────────────────────────────────────────
+// DERIVED STATUS
+// ─────────────────────────────────────────────────
+function chStatus(ch) {
+  if (!ch.firstTouched) return 'untouched';
+  const du = daysUntil(ch.nextReview);
+  if (du <= 0) return 'due';
+  if (du <= 3) return 'soon';
+  return 'active';
+}
+
+// ─────────────────────────────────────────────────
 // STATS
-// ══════════════════════════════════════════════════
-function getSubStats(sid) {
-  const sub = SUBJECTS.find(s => s.id === sid);
-  let done=0, studying=0, due=0, scheduled=0;
+// ─────────────────────────────────────────────────
+function subStats(sid) {
+  const sub = SUBJECTS.find(s=>s.id===sid);
+  let touched=0, due=0, soon=0;
   sub.chapters.forEach((_,i) => {
-    const ch = get(sid,i);
-    const rs = reviewStatus(ch);
-    if (ch.status === 'done')    done++;
-    if (ch.status === 'studying') studying++;
-    if (rs === 'due')   due++;
-    if (rs === 'sched') scheduled++;
+    const ch = G(sid,i);
+    const st = chStatus(ch);
+    if (st!=='untouched') touched++;
+    if (st==='due')  due++;
+    if (st==='soon') soon++;
   });
-  return { total: sub.chapters.length, done, studying, due, scheduled };
+  return { total:sub.chapters.length, touched, due, soon };
 }
 
-function getAllDue() {
-  // Returns list of { sid, chIdx, chName, sub, reviewStatus, nextReview, diff }
-  const items = [];
+function allDue() {
+  const items=[];
   SUBJECTS.forEach(sub => {
-    sub.chapters.forEach((name, i) => {
-      const ch = get(sub.id, i);
-      const rs = reviewStatus(ch);
-      if (rs === 'due' || rs === 'sched') {
-        items.push({ sid: sub.id, chIdx: i, chName: name, sub, rs, ch });
-      }
+    sub.chapters.forEach((name,i) => {
+      const ch = G(sub.id,i);
+      const st = chStatus(ch);
+      if (st==='due'||st==='soon') items.push({sid:sub.id,chIdx:i,chName:name,sub,st,ch});
     });
   });
-  // Sort: due first, then scheduled by date
-  items.sort((a,b) => {
-    if (a.rs === 'due' && b.rs !== 'due') return -1;
-    if (b.rs === 'due' && a.rs !== 'due') return 1;
-    return new Date(a.ch.nextReview) - new Date(b.ch.nextReview);
+  items.sort((a,b)=>{
+    if(a.st==='due'&&b.st!=='due') return -1;
+    if(b.st==='due'&&a.st!=='due') return 1;
+    return new Date(a.ch.nextReview)-new Date(b.ch.nextReview);
   });
   return items;
 }
 
-function getTotalDueCount() {
-  return getAllDue().filter(x => x.rs === 'due').length;
-}
-
-// ══════════════════════════════════════════════════
-// FORMAT HELPERS
-// ══════════════════════════════════════════════════
-function fmtAgo(iso) {
-  if (!iso) return '';
-  const d = daysBetween(new Date(iso), TODAY);
-  if (d === 0) return 'today';
-  if (d === 1) return 'yest.';
-  if (d < 7)  return d + 'd ago';
-  return new Date(iso).toLocaleDateString('en-IN',{day:'numeric',month:'short'});
-}
-
-function fmtNext(iso) {
-  if (!iso) return '';
-  const d = daysBetween(TODAY, new Date(iso));
-  if (d <= 0) return 'Due now';
-  if (d === 1) return 'Tomorrow';
-  if (d <= 7) return `In ${d} days`;
-  return new Date(iso).toLocaleDateString('en-IN',{day:'numeric',month:'short'});
-}
-
-// ══════════════════════════════════════════════════
-// RENDER
-// ══════════════════════════════════════════════════
+// ─────────────────────────────────────────────────
+// RENDER SIDEBAR
+// ─────────────────────────────────────────────────
 function renderSidebar() {
-  let tDone=0, tAll=0;
-  const navItems = SUBJECTS.map(sub => {
-    const st = getSubStats(sub.id);
-    const pct = Math.round(st.done / st.total * 100);
-    tDone += st.done; tAll += st.total;
-    const active = activeSub === sub.id;
+  let tTouched=0, tAll=0;
+  const nav = SUBJECTS.map(sub=>{
+    const st = subStats(sub.id);
+    const pct = Math.round(st.touched/st.total*100);
+    tTouched+=st.touched; tAll+=st.total;
     return `
-<button class="nav-btn ${active?'active':''}" data-action="nav" data-sid="${sub.id}">
-  <div class="nb-top">
-    <span class="nb-id">${sub.id}</span>
-    <span class="nb-ct">${st.done}/${st.total}</span>
-  </div>
+<button class="nav-btn ${activeSub===sub.id?'active':''}" data-action="nav" data-sid="${sub.id}">
+  <div class="nb-top"><span class="nb-id">${sub.id}</span><span class="nb-ct">${st.touched}/${st.total}</span></div>
   <div class="nb-bar"><div class="nb-fill" style="width:${pct}%;background:${sub.color}"></div></div>
-  ${st.due ? `<div class="nb-due">↩ ${st.due} review${st.due>1?'s':''} due</div>` : ''}
+  ${st.due?`<div class="nb-due">↩ ${st.due} review${st.due>1?'s':''} due</div>`:''}
 </button>`;
   }).join('');
 
-  const opct = tAll ? Math.round(tDone/tAll*100) : 0;
-  const dueCount = getTotalDueCount();
+  const opct = tAll?Math.round(tTouched/tAll*100):0;
+  const totalDue = allDue().filter(x=>x.st==='due').length;
 
-  document.getElementById('sidebar').innerHTML = `
+  document.getElementById('sidebar').innerHTML=`
 <div class="sb-brand">
   <div class="sb-eye">ICAI · New Scheme 2023</div>
   <div class="sb-title">CA Final Tracker</div>
 </div>
 <button class="today-btn ${activeSub===VIEW_TODAY?'active':''}" data-action="nav" data-sid="${VIEW_TODAY}">
   <span class="today-label">⚡ Due Today</span>
-  ${dueCount ? `<span class="today-badge">${dueCount}</span>` : ''}
+  ${totalDue?`<span class="today-badge">${totalDue}</span>`:''}
 </button>
 <div class="sb-sep"></div>
-<nav class="sb-nav">${navItems}</nav>
+<nav class="sb-nav">${nav}</nav>
 <div class="sb-footer">
   <div class="ov-lbl">Overall</div>
   <div class="ov-row">
     <div class="ov-bar"><div class="ov-fill" style="width:${opct}%"></div></div>
     <span class="ov-pct">${opct}%</span>
   </div>
-  <div class="ov-sub">${tDone} of ${tAll} chapters done</div>
+  <div class="ov-sub">${tTouched} of ${tAll} chapters started</div>
 </div>`;
 }
 
+// ─────────────────────────────────────────────────
+// RENDER CHAPTER LIST
+// ─────────────────────────────────────────────────
 function renderMain() {
-  if (activeSub === VIEW_TODAY) { renderToday(); return; }
-  const sub = SUBJECTS.find(s => s.id === activeSub);
-  const st = getSubStats(activeSub);
-  const pct = Math.round(st.done / st.total * 100);
+  if (activeSub===VIEW_TODAY) { renderToday(); return; }
+  const sub = SUBJECTS.find(s=>s.id===activeSub);
+  const st = subStats(activeSub);
+  const pct = Math.round(st.touched/st.total*100);
 
-  const chips = [
-    st.done    ? `<span class="chip c-done">${st.done} Done</span>` : '',
-    st.studying ? `<span class="chip c-study">${st.studying} Studying</span>` : '',
-    st.due     ? `<span class="chip c-due">⚠ ${st.due} Review Due</span>` : '',
-    st.scheduled ? `<span class="chip c-sched">${st.scheduled} Review Soon</span>` : '',
+  const chips=[
+    st.touched?`<span class="chip c-touched">${st.touched} Started</span>`:'',
+    st.due?`<span class="chip c-due">⚠ ${st.due} Review Due</span>`:'',
+    st.soon?`<span class="chip c-sched">${st.soon} Review Soon</span>`:'',
   ].filter(Boolean).join('');
 
-  const rows = sub.chapters.map((name, i) => {
-    const ch = get(sub.id, i);
-    const rs = reviewStatus(ch);
+  const rows = sub.chapters.map((name,i)=>{
+    const ch = G(sub.id,i);
+    const st = chStatus(ch);
+    const todayDone = isTodayLogged(ch);
 
-    let statusCls, statusLbl;
-    if (ch.status === 'unseen')   { statusCls='s-unseen'; statusLbl='○ Not Started'; }
-    else if (ch.status === 'studying') { statusCls='s-study'; statusLbl='◑ Studying'; }
-    else                                { statusCls='s-done';  statusLbl='● Done'; }
+    // Studied Today button
+    let tbCls, tbLbl;
+    if (!ch.firstTouched) { tbCls='tb-new';    tbLbl='+ Studied Today'; }
+    else if (todayDone)   { tbCls='tb-today';  tbLbl='✓ Logged Today'; }
+    else                  { tbCls='tb-active'; tbLbl='+ Studied Today'; }
 
-    let reviewCls, reviewLbl;
-    if (rs === 'na')    { reviewCls='rb-na';   reviewLbl='—'; }
-    else if (rs === 'due')   { reviewCls='rb-due';  reviewLbl='↩ Review Now'; }
-    else if (rs === 'sched') { reviewCls='rb-sched'; reviewLbl=fmtNext(ch.nextReview); }
-    else                     { reviewCls='rb-done';  reviewLbl=fmtNext(ch.nextReview); }
+    // Review button
+    let rbCls, rbLbl, rbAction='';
+    if (!ch.firstTouched)  { rbCls='rb-na';    rbLbl='—'; }
+    else if (st==='due')   { rbCls='rb-due';   rbLbl='↩ Mark Reviewed'; rbAction='data-action="review"'; }
+    else if (st==='soon')  { rbCls='rb-sched'; rbLbl=fmtNext(ch.nextReview); }
+    else                   { rbCls='rb-na';    rbLbl=fmtNext(ch.nextReview); }
 
-    const dots = [1,2,3].map(d =>
+    // Subline
+    let subline='';
+    if (ch.firstTouched) {
+      const rc = ch.reviewCount||0;
+      const sessions = ch.sessions?.length||1;
+      subline = `First studied ${fmtAgo(ch.firstTouched)} · ${sessions} session${sessions!==1?'s':''}${rc>0?` · revised ${rc}×`:''}`;
+    }
+
+    const dots=[1,2,3].map(d=>
       `<button class="diff-dot ${ch.diff>=d?'on':'off'}" data-action="diff" data-sid="${sub.id}" data-i="${i}" data-d="${d}">${d}</button>`
     ).join('');
 
-    const isDue = rs === 'due';
-    const isDone = ch.status === 'done' && rs !== 'due';
-
-    let subline = '';
-    if (ch.studiedAt) {
-      const rc = ch.reviewCount || 0;
-      subline = `Studied ${fmtAgo(ch.studiedAt)}${rc > 0 ? ` · revised ${rc}×` : ''}`;
-    }
-
-    const reviewAction = (rs === 'due' || rs === 'sched') ? `data-action="review"` : '';
-    const reviewClickable = (rs === 'due' || rs === 'sched') ? '' : 'style="pointer-events:none"';
-
     return `
-<div class="ch-row ${isDue?'row-due':''} ${isDone?'row-done':''}">
+<div class="ch-row ${st==='due'?'row-due':''} ${ch.firstTouched&&st!=='due'?'row-touched':''}">
   <div class="ch-name">
-    <div class="ch-nm">${name}${isDue?'<span class="due-badge">Review Due</span>':''}</div>
-    ${subline ? `<div class="ch-sub">${subline}</div>` : ''}
+    <div class="ch-nm">${name}${st==='due'?'<span class="due-badge">Review Due</span>':''}</div>
+    ${subline?`<div class="ch-sub">${subline}</div>`:''}
   </div>
-  <button class="status-btn ${statusCls}" data-action="cycle" data-sid="${sub.id}" data-i="${i}"
-    title="Click to cycle: Not Started → Studying → Done → (reset)">${statusLbl}</button>
-  <button class="review-btn ${reviewCls}" ${reviewAction} data-sid="${sub.id}" data-i="${i}" ${reviewClickable}>${reviewLbl}</button>
+  <button class="touch-btn ${tbCls}" data-action="touch" data-sid="${sub.id}" data-i="${i}"
+    ${todayDone?'style="pointer-events:none"':''}>${tbLbl}</button>
+  <button class="review-btn ${rbCls}" ${rbAction} data-sid="${sub.id}" data-i="${i}">${rbLbl}</button>
   <div class="diff-col">${dots}</div>
 </div>`;
   }).join('');
 
-  document.getElementById('main').innerHTML = `
+  document.getElementById('main').innerHTML=`
 <div class="header">
   <div class="header-row">
     <div>
       <div class="header-title">${sub.name}</div>
-      <div class="chips">${chips || '<span class="chip c-empty">Start clicking chapters below — no friction</span>'}</div>
+      <div class="chips">${chips||'<span class="chip c-empty">Hit "+ Studied Today" on any chapter you touch</span>'}</div>
     </div>
     <div class="header-right">
       <div class="hpct" style="color:${sub.color}">${pct}%</div>
@@ -606,7 +487,7 @@ function renderMain() {
 <div class="list-wrap">
   <div class="col-heads">
     <span class="col-n">Chapter</span>
-    <span class="col-s">Status</span>
+    <span class="col-t">Log Session</span>
     <span class="col-r">Next Review</span>
     <span class="col-f">Difficulty</span>
   </div>
@@ -614,105 +495,81 @@ function renderMain() {
 </div>`;
 }
 
+// ─────────────────────────────────────────────────
+// RENDER TODAY VIEW
+// ─────────────────────────────────────────────────
 function renderToday() {
-  const items = getAllDue();
-  const due   = items.filter(x => x.rs === 'due');
-  const sched = items.filter(x => x.rs === 'sched');
+  const items = allDue();
+  const due  = items.filter(x=>x.st==='due');
+  const soon = items.filter(x=>x.st==='soon');
 
-  function itemRow(x) {
-    const ch = x.ch;
-    const rc = ch.reviewCount || 0;
-    const isDue = x.rs === 'due';
+  function row(x) {
+    const ch=x.ch; const isDue=x.st==='due';
+    const todayDone=isTodayLogged(ch);
     return `
 <div class="ch-row ${isDue?'row-due':''}">
   <div class="ch-name">
     <div class="ch-nm">${x.chName}</div>
     <div class="ch-sub">
-      <span class="today-sub-tag" style="background:${x.sub.color}18;color:${x.sub.color}">${x.sid}</span>
-      ${rc > 0 ? `· revised ${rc}×` : ''}
+      <span class="sub-tag" style="background:${x.sub.color}18;color:${x.sub.color}">${x.sid}</span>
+      · ${(ch.reviewCount||0)>0?`revised ${ch.reviewCount}× · `:''}first studied ${fmtAgo(ch.firstTouched)}
     </div>
   </div>
-  <button class="review-btn ${isDue?'rb-due':'rb-sched'}"
-    data-action="review" data-sid="${x.sid}" data-i="${x.chIdx}">
-    ${isDue ? '↩ Mark Reviewed' : fmtNext(ch.nextReview)}
+  <button class="touch-btn ${todayDone?'tb-today':'tb-active'}" data-action="touch"
+    data-sid="${x.sid}" data-i="${x.chIdx}" ${todayDone?'style="pointer-events:none"':''}>
+    ${todayDone?'✓ Logged Today':'+ Studied Today'}
   </button>
+  ${isDue
+    ? `<button class="review-btn rb-due" data-action="review" data-sid="${x.sid}" data-i="${x.chIdx}">↩ Mark Reviewed</button>`
+    : `<button class="review-btn rb-sched" style="pointer-events:none">${fmtNext(ch.nextReview)}</button>`
+  }
   <div class="diff-col">
     ${[1,2,3].map(d=>`<button class="diff-dot ${ch.diff>=d?'on':'off'}" data-action="diff" data-sid="${x.sid}" data-i="${x.chIdx}" data-d="${d}">${d}</button>`).join('')}
   </div>
 </div>`;
   }
 
-  const dueSection = due.length ? `
-<div class="today-section">
-  <div class="today-section-title">Overdue — do these first</div>
-  ${due.map(itemRow).join('')}
-</div>` : '';
-
-  const schedSection = sched.length ? `
-<div class="today-section">
-  <div class="today-section-title">Coming up this week</div>
-  ${sched.map(itemRow).join('')}
-</div>` : '';
-
-  const empty = !due.length && !sched.length ? `
-<div class="today-empty">
-  Nothing due. Keep studying new chapters.
-</div>` : '';
-
-  document.getElementById('main').innerHTML = `
+  const totalDue=due.length;
+  document.getElementById('main').innerHTML=`
 <div class="header">
   <div class="header-row">
     <div>
       <div class="header-title">Due Today</div>
       <div class="chips">
-        ${due.length  ? `<span class="chip c-due">${due.length} Overdue</span>` : ''}
-        ${sched.length? `<span class="chip c-sched">${sched.length} This Week</span>` : ''}
-        ${!due.length && !sched.length ? '<span class="chip c-empty">All clear</span>' : ''}
+        ${due.length?`<span class="chip c-due">⚠ ${due.length} Overdue</span>`:''}
+        ${soon.length?`<span class="chip c-sched">${soon.length} This Week</span>`:''}
+        ${!due.length&&!soon.length?'<span class="chip c-empty">All clear — go study new chapters</span>':''}
       </div>
     </div>
     <div class="header-right">
-      <div class="hpct" style="color:#EF4444">${due.length}</div>
+      <div class="hpct" style="color:#EF4444">${totalDue}</div>
       <div class="hpct-sub">overdue</div>
     </div>
   </div>
-  <div class="hbar"><div class="hbar-fill" style="width:${Math.min(100,due.length*10)}%;background:#EF4444"></div></div>
+  <div class="hbar"><div class="hbar-fill" style="width:${Math.min(100,totalDue*8)}%;background:#EF4444"></div></div>
 </div>
 <div class="list-wrap">
-  ${dueSection}${schedSection}${empty}
+  ${due.length?`<div class="today-section"><div class="today-section-title">Overdue — do these first</div>${due.map(row).join('')}</div>`:''}
+  ${soon.length?`<div class="today-section"><div class="today-section-title">Coming up this week</div>${soon.map(row).join('')}</div>`:''}
+  ${!due.length&&!soon.length?`<div class="today-empty">Nothing due right now.<br>Open any subject and log what you study today.</div>`:''}
 </div>`;
 }
 
-function render() { renderSidebar(); renderMain(); }
-
-// ══════════════════════════════════════════════════
+// ─────────────────────────────────────────────────
 // EVENTS
-// ══════════════════════════════════════════════════
-document.addEventListener('click', e => {
-  const el = e.target.closest('[data-action]');
-  if (!el) return;
-  const { action, sid, i, d } = el.dataset;
-
-  if (action === 'nav') {
-    activeSub = sid;
-    saveStore();
-    render();
-  } else if (action === 'cycle') {
-    cycleStatus(sid, +i);
-    render();
-  } else if (action === 'review') {
-    markReviewed(sid, +i);
-    render();
-  } else if (action === 'diff') {
-    setDiff(sid, +i, +d);
-    renderMain();
-  }
+// ─────────────────────────────────────────────────
+document.addEventListener('click', e=>{
+  const el=e.target.closest('[data-action]'); if(!el) return;
+  const {action,sid,i,d}=el.dataset;
+  if      (action==='nav')    { activeSub=sid; save(); }
+  else if (action==='touch')  { logSession(sid,+i); }
+  else if (action==='review') { markReviewed(sid,+i); }
+  else if (action==='diff')   { setDiff(sid,+i,+d); renderMain(); return; }
+  renderSidebar(); renderMain();
 });
 
-// ══════════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════════
-loadStore();
-render();
+// ─────────────────────────────────────────────────
+load(); renderSidebar(); renderMain();
 </script>
 </body>
 </html>
